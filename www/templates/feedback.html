@@ -1,0 +1,318 @@
+<ion-view title="Feedback" ng-controller="feedbackCtrl">
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+        function isDecimalNumber(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+    <ion-content scroll="false" ng-init="loadPageData()">
+
+        <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+            <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+        </div>
+        <p style="text-align: center">Progress: {{ progress }}% </p>
+
+        <ion-scroll direction="y" class="theroot">
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    1. Has your school participated in the Green Schools Programme (GSP) Audit before?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe1" ng-value="data.yesNo[i][0]" type="radio" name="q1f1">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    1(a) If your answer is yes, in which year did your school first participate in the audit?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe1S1" class="textbox" limit-to="4"
+                           style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                           onkeypress="return isNumberKey(event)">
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    1(b) If your answer is yes, how many times have you done the audit?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe1S2" class="textbox" limit-to="1"
+                           style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                           onkeypress="return isNumberKey(event)">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    2. Did you find the online information relevant to your environmental education activities?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe2" ng-value="data.yesNo[i][0]" type="radio" name="q1f2">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe2 == 'N'">
+                <div class="item item-text-wrap item-borderless">
+                    2(a) If your answer is no, please share your suggestions:
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe2S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    3. Was the audit easy to understand and self-explanatory?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe3" ng-value="data.yesNo[i][0]" type="radio" name="q1f3">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    4. Do you think your school will be a Green School (resource efficient) by 2019?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe4" ng-value="data.yesNo[i][0]" type="radio" name="q1f4">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe4 == 'N'">
+                <div class="item item-text-wrap item-borderless">
+                    4(a) If your answer is no, why?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe4S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    5. What would be the help required to make your school a Green School?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q7Fe1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    6. How would you rate the overall design of the audit?
+                </div>
+                <div class="row" style="padding-left: 20px">
+                    <div class="col col-40">
+                        <b>Audit</b>
+                    </div>
+                    <div class="col col-20" ng-repeat="j in getList(3)">
+                        <b>{{ data.ratings[j] }}</b>
+                    </div>
+                </div>
+                <div class="row" style="padding-left: 20px" ng-repeat="i in getList(4)">
+                    <div class="col col-40">
+                        {{ data.Q6Types[i] }}
+                    </div>
+                    <div class="col col-20" ng-repeat="j in getList(3)">
+                        <input ng-model="feedback['Q8Fe' + i]" ng-value="j" type="radio" name="q8f{{ i }}">&nbsp;
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    7. Would your school like to recommend any topic/s that you strongly feel should be added
+                    or deleted in the audit?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe7" ng-value="data.yesNo[i][0]" type="radio" name="q1f7">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe7 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    7(a) If your answer is yes, please share your suggestions:
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe7S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    8. Could you finish all the tasks in given period of time (August-October)?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe8" ng-value="data.yesNo[i][0]" type="radio" name="q1f8">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    9. How many times did you contact the Green Schools Programme Team
+                    for guidance and counseling?
+                </div>
+                <div class="row" ng-repeat="i in getList(4)">
+                    <div class="col col-10">
+                        <input ng-model="feedback.Q1Fe9" ng-value="i" type="radio" name="q1f9">
+                    </div>
+                    <div class="col">
+                        {{ data.howManyTimes[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    10. Water being the focus of this year, did you find the questionnaire in
+                    Water section helpful to make schools understand how to become water efficient?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe10" ng-value="data.yesNo[i][0]" type="radio" name="q1f10">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe10 == 'N'">
+                <div class="item item-text-wrap item-borderless">
+                    10(a) If your answer is no, please share your suggestions
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe10S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    11. Did your students enjoy doing Water activities?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="feedback.Q1Fe11" ng-value="data.yesNo[i][0]" type="radio"
+                               name="q1f11" ng-change="updateQ11()">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe11 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    11(a) If your answer is yes, why did they enjoy doing outdoor activities?
+                </div>
+                <div class="row" style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe11S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card" ng-if="feedback.Q1Fe11 == 'N'">
+                <div class="item item-text-wrap item-borderless">
+                    11(a) If your answer is no, please state why?
+                </div>
+                <div class="row" style="padding-left: 20px">
+                    <input ng-model="feedback.Q1Fe11S1" class="textbox"
+                           style="border:1px solid #111;text-align: center;" type="text">
+                </div>
+            </div>
+
+            <div class="card list">
+                <div class="item item-text-wrap item-borderless">
+                    <b>Checklist of uploaded documents</b><br/>
+                    Please confirm that you have uploaded the following
+                    documents related to their respective sections:
+                </div>
+                <div class="row" ng-repeat="i in getList(28)">
+                    <div class="col col-10">
+                        <input ng-model="feedback['Q17Fe' + i]"
+                               ng-checked="feedback['Q17Fe' + i] === 'true'" type="checkbox">
+                    </div>
+                    <div class="col">
+                        {{ data.uploadedDocs[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <b><u>The GSP Awards 2017</u></b><br/><br/>
+                    The GSP Awards acknowledge and reward schools that have adopted the most innovative and effective practices to manage the natural resources within their own premises. The Awards are given away at the GSP Awards ceremony, an annual event, where top performers from across the country are rewarded for environmental activities that made an impact in their respective schools.
+                </div>
+                <div class="row">
+                    <div class="col col-10">
+                        <input ng-model="feedback.Q18Fe" ng-checked="feedback['Q18Fe'] === 'true'"
+                               type="checkbox" style="margin-left: 20%">
+                    </div>
+                    <div class="col">
+                        Please enter my school for Green School Awards.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="list card">
+                <div class="button-bar">
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="goToPrev()">PREV</a>
+                    &nbsp;
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="saveData()">SAVE</a>
+                </div>
+                <br/>
+                <div class="button-bar">
+                    <a class="button background-color text-white" ng-disabled="!validNext()"
+                       ion-chevron-right nav-clear ng-click="quiz2(feedback)">FINAL SUBMIT</a>
+
+                </div>
+            </div>
+
+        </ion-scroll>
+    </ion-content>
+
+</ion-view>

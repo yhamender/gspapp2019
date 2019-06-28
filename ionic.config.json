@@ -1,0 +1,14 @@
+{
+  "name": "GSP",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*",
+    "www/**/*",
+    "!www/lib/**/*",
+    "!www/**/*.map"
+  ],
+  "id": "c36ed0c5"
+}

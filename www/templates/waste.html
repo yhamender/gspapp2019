@@ -1,0 +1,1352 @@
+<ion-view title="Waste {{ primaryText }}" ng-controller="wasteCtrl">
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+        function isDecimalNumber(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+
+    <ion-content scroll="false" ng-init="loadPageData()">
+
+        <div class="button-bar">
+            <a class="button background-color text-white" ion-chevron-right
+               nav-clear ng-click="openModal()">
+                Watch Video Tutorial <img align="right" src="img/green-school-video-icon.png"
+                                          style="width : auto ; height : auto" ng-click="openModal()">
+            </a>
+        </div>
+
+        <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+            <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+        </div>
+        <p style="text-align: center">Progress: {{ progress }}% </p>
+
+        <ion-scroll direction="y" class="theroot">
+
+            <div class="padding-bottom content" style="text-align: justify;">
+                Schools can
+                <span ng-show="!readMore[1]">...</span>
+                <span ng-show="readMore[1]">
+                        provide excellent educational opportunities for creating awareness
+                        about waste and its management.
+                    </span>
+                <ul class="water-list" ng-show="readMore[1]">
+                    <li>
+                        Waste reduction initiatives save natural resources,
+                        energy and landfill space.
+                    </li>
+                    <li>
+                        Reducing, reusing, recycling waste material will improve the economic and
+                        environmental performance of the school.
+                    </li>
+                    <li>
+                        The school&#39;s waste management programme has the potential to transform
+                        the school environment into a laboratory for learning.
+                    </li>
+                    <li>
+                        It also provides numerous opportunities for the students to understand this
+                        issue and its implications on the local environment.
+                    </li>
+                </ul>
+                <a ng-click="toggleReadMore(1)">
+                    <span ng-show="!readMore[1]">Read More</span>
+                    <span ng-show="readMore[1]">Read Less</span>
+                </a>
+                <br/>
+                <br/>
+
+                <strong>Unit of measurement should remain constant: Kilogram (kg).</strong>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong>Task 1: Choose your Waste Audit Team.</strong>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <div>
+                    The housekeeping
+                    <span ng-show="!readMore[2]">...</span>
+                    <span ng-show="readMore[2]">
+                        and cleaning staff of your school shall
+                        be the core members of your team, as you will have to
+                        enlist their help at every task. A teacher with interest
+                        in waste and five to 10 students will be ideal for your
+                        team. Administrative staff is important as they will
+                        provide the permissions required for the housekeeping
+                        staff to work with you.
+                    </span>
+                    <a ng-click="toggleReadMore(2)">
+                        <span ng-show="!readMore[2]">Read More</span>
+                        <span ng-show="readMore[2]">Read Less</span>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Teachers (maximum of three teachers can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateTeacher('Wa')">
+                    Please enter details of at least 1 teacher
+                </span>
+
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col">Email ID</div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3]">
+                    <div class="col col-10">{{ i }}</div>
+                    <div class="col">
+                        <input ng-model="waste['Q1Wa' + i + 'S1']" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q1Wa' + i + 'S3']" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q1Wa' + i + 'S2']" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="email">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Administrative staff (maximum of five staff can be part of the team):
+                </div>
+                
+                <span class="validation-error" ng-hide="validStaff('Wa')">
+                    Please enter details of at least one staff.
+                </span>
+
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col"> Email ID</div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3, 4, 5]">
+                    <div class="col col-10">{{ i }}</div>
+                    <div class="col"><input ng-model="waste['Q2Wa' + i + 'S1']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="waste['Q2Wa' + i + 'S3']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="waste['Q2Wa' + i + 'S2']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Students (maximum of ten students can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateStudent('Wa')">
+                    Please enter details of at least 1 student.
+                </span>
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col">Grade</div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                    <div class="col col-10">{{ i }}</div>
+                    <div class="col">
+                        <input ng-model="waste['Q3Wa' + i + 'S1']" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col"><input ng-model="waste['Q3Wa' + i + 'S2']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="waste['Q3Wa' + i + 'S3']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong>Task 2: What is the waste segregation system in your school?</strong>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <div>
+                    Segregation means
+                    <span ng-show="!readMore[3]">...</span>
+                    <span ng-show="readMore[3]">
+                        sorting. Let’s understand the waste
+                        segregation system because the amount of waste recycled
+                        or reused will depend on the method of collection. To
+                        understand the waste segregation system of your school,
+                        fill the table below. <br/>
+                        <b>To collect data:</b> Students will
+                        have to survey the waste collection area and talk to
+                        the house-keeping staff to know whether waste is
+                        segregated in the school and in what quantity.
+                    </span>
+                    <a ng-click="toggleReadMore(3)">
+                        <span ng-show="!readMore[3]">Read More</span>
+                        <span ng-show="readMore[3]">Read Less</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    1. Does your school segregate solid waste?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q4Wa1" ng-value="data.yesNo[i][0]" type="radio" name="a">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" ng-show="waste.Q4Wa1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    1(a) Who segregates the waste at source?
+                </div>
+                <ion-item class="fs-14 item-text-wrap" ng-repeat="i in [1, 2, 3, 4, 5]">
+                    <input ng-model="waste['Q4Wa2S' + i]" ng-checked="waste['Q4Wa2S' + i] === 'true'" type="checkbox"><span
+                        style="position:absolute">&nbsp;{{ data.whoSegregates[i] }}</span>
+                </ion-item>
+                <div class="row" ng-show="waste.Q4Wa2S5">
+                    <div class="col col-20">
+                        Please specify
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q4Wa2S6']" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    2. How many categories does your school segregate waste into
+                    <span class="badge" ng-click="showToolTip('Q2')">?</span>
+                </div>
+                <div class="row" ng-repeat="i in [1, 2, 3]">
+                    <div class="col col-10">
+                        <input ng-model="waste.Q4Wa2" ng-value="i" type="radio" name="ab">
+                    </div>
+                    <div class="col">
+                        {{ data.categoriesSegregated[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    2(a) How many categories does your school segregate waste into?
+                </div>
+
+                <div class="row">
+                    <div class="col col-20"><b>No. of waste collection points with no bin</b></div>
+                    <div class="col"><b>No. of waste collection points with one bin(mixed waste)</b></div>
+                    <div class="col"><b>No. of waste collection points with one bin(for only dry waste)</b></div>
+                    <div class="col"><b>No. of waste collection points with two bins(wet & dry)</b></div>
+                    <div class="col"><b>No. of waste collection points with three bins or more</b></div>
+                    <div class="col"><b>Total no. of waste collection points</b></div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                    <div class="col col-20">
+                        {{ data.wasteCollectionPoints[i] }}
+                        <span ng-show="i == 3" class="badge" ng-click="showToolTip('Q5W3')">?</span>
+                    </div>
+                    <div class="col" ng-repeat="j in [1, 2, 3, 4]">
+                        <input ng-model="waste['Q5Wa' + i + 'S' + j]" class="textbox"
+                               ng-change="updateQ5(i, j)"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                               onkeypress="return isNumberKey(event);">
+                    </div>
+                    <div class="col"><input ng-model="waste['Q5Wa' + i + 'S5']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number" string-to-number=""
+                                            readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-20">Total</div>
+                    <div class="col" ng-repeat="j in [1, 2, 3, 4]">
+                        <input ng-model="waste['Q5Wa11S' + j]" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number"
+                               string-to-number
+                               readonly>
+                    </div>
+                    <div class="col"><input ng-model="waste['Q5Wa11S5']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                                            readonly>
+                    </div>
+                </div>
+
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Segregation_Source_Classrooms.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Segregation_Source_Classrooms.length)">
+                        <img src="" web-upload="{{ image_lookup.Segregation_Source_Classrooms[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of dustbins in classroom showing segregation at source
+                        </li>
+                        <li>
+                            Pictures of playground with more than two dustbins
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Segregation_Source_Classrooms')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Segregation_Source_Classrooms')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Segregation_Source_Classrooms.length > 0"
+                         ng-repeat="i in get0List(images.Segregation_Source_Classrooms.length)">
+                        <img src="" image-u-r-l="{{ images.Segregation_Source_Classrooms[i] }}" height="100" width="100"
+                             alt="Segregation_Source_Classrooms">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Segregation_Source_Classrooms')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16" ng-if-start="!primary" ng-repeat-start="x in [1, 2]">
+                <strong>{{ data.wasteGeneratedOrRecycled[x]['task'] }}</strong>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <div>
+                    <span ng-bind-html="data.wasteGeneratedOrRecycled[x]['readLess']"></span>
+                    <span ng-show="!readMore[3 + x]">...</span>
+                    <span ng-show="readMore[3 + x]" ng-bind-html="data.wasteGeneratedOrRecycled[x]['readMore']">
+                    </span>
+                    <a ng-click="toggleReadMore(3 + x)">
+                        <span ng-show="!readMore[3 + x]">Read More</span>
+                        <span ng-show="readMore[3 + x]">Read Less</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" ng-if="x == 2">
+                <div class="item item-text-wrap item-borderless">
+                    4. Does your school recycle any generated waste?
+                    <span class="badge" ng-click="showToolTip('Q4')">?</span>
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q8Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q7">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" ng-if="x == 1 || x == 2 && waste.Q8Wa1 == 'Y'" ng-if-end ng-repeat-end>
+
+                <div class="item item-text-wrap item-borderless">
+                    {{ data.wasteGeneratedOrRecycled[x]['ques'] }}
+                    <span ng-if="x == 1" class="badge" ng-click="showToolTip('Q3')">?</span>
+                </div>
+
+                <div class="row" ng-repeat-start="i in [1, 2, 3, 4, 5, 6, 7]">
+                    <strong>{{ data.wasteTypes[i]['name'] }}</strong>
+                </div>
+
+                <div class="row">
+                    <div class="col col-50">
+                        HOW MUCH WASTE DOES YOUR SCHOOL
+                        {{ data.wasteGeneratedOrRecycled[x]['genOrRec']['c1'] }}?
+                    </div>
+                    <div class="col">
+                        Quantity of solid waste
+                        {{ data.wasteGeneratedOrRecycled[x]['genOrRec']['c2'] }}(monthly average in kg)
+                    </div>
+                </div>
+
+                <div class="row" ng-repeat="j in getList(data.wasteTypes[i]['len'])">
+                    <div class="col col-50">
+                        {{ data.wasteTypes[i]['subTypes'][j] }}
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q' + data.wasteGeneratedOrRecycled[x]['qNum'] + 'Wa' + i + 'S' + j]"
+                               class="textbox"
+                               ng-change="updateQ6AndQ8(data.wasteGeneratedOrRecycled[x]['qNum'], i, data.wasteTypes[i]['len'])"
+                               style="border:1px solid #111;text-align: center;"
+                               type="number" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row" ng-if="data.wasteTypes[i]['len'] != 1">
+                    <div class="col col-50">
+                        Total amount of waste
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q' + data.wasteGeneratedOrRecycled[x]['qNum'] + 'Wa' + i + 'S' + (data.wasteTypes[i]['len'] + 1)]"
+                               class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="number" string-to-number readonly>
+                    </div>
+                </div>
+
+                <div class="row" ng-repeat-end>
+                    <div class="col col-50">
+                        Per capita
+                        waste {{ data.wasteGeneratedOrRecycled[x]['genOrRec']['c2'] }}({{ data.wasteTypes[i]['alpha'] }})
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste['Q' + data.wasteGeneratedOrRecycled[x]['qNum'] + 'Wa' + i + 'S' + (data.wasteTypes[i]['len'] + perCapitaOffset)]"
+                               class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="number" string-to-number readonly>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="x === 1">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup[wasteGeneratedOrRecycled[x]['uploadName']].length > 0"
+                         ng-repeat="i in get0List(image_lookup[wasteGeneratedOrRecycled[x]['uploadName']].length)">
+                        <img src="" web-upload="{{ image_lookup[wasteGeneratedOrRecycled[x]['uploadName']][i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li ng-repeat="text in data.wasteGeneratedOrRecycled[x]['uploadText']">
+                            {{ text }}
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic(data.wasteGeneratedOrRecycled[x]['uploadName'])">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove(data.wasteGeneratedOrRecycled[x]['uploadName'])">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.data[wasteGeneratedOrRecycled[x]['uploadName']].length > 0"
+                         ng-repeat="i in get0List(images.data[wasteGeneratedOrRecycled[x]['uploadName']].length)">
+                        <img src="" image-u-r-l="{{ images.data[wasteGeneratedOrRecycled[x]['uploadName']][i] }}" height="100" width="100"
+                             alt="{{ data.wasteGeneratedOrRecycled[x]['uploadName'] }}">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload(data.wasteGeneratedOrRecycled[x]['uploadName'])">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16" ng-if-start="primary">
+                <strong>Task 3: Does your school treat/recycle waste?</strong>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    3. Does your school recycle any generated waste?
+                    <span class="badge" ng-click="showToolTip('Q4')">?</span>
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q8Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q8wa1">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" ng-if-end>
+                <div ng-if-start="waste.Q8Wa1 === 'Y'" class="item item-text-wrap item-borderless">
+                    3(a)
+                </div>
+                <div class="row">
+                    <div class="col col-60">
+                        <b>Type of waste</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Yes</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>No</b>
+                    </div>
+                </div>
+                <div ng-if-end class="row" ng-repeat="i in getList(10)">
+                    <div class="col col-60">
+                        {{ data.wasteTypesPrimary[i] }}
+                    </div>
+                    <div class="col col-20">
+                        <input ng-model="waste['Q8Wa2S' + i]" ng-value="data.yesNo[1][0]" type="radio" name="q8wa1s{{ i }}">
+                    </div>
+                    <div class="col col-20">
+                        <input ng-model="waste['Q8Wa2S' + i]" ng-value="data.yesNo[2][0]" type="radio" name="q8wa1s{{ i }}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">4.</span><span ng-if="!primary">5.</span>
+                     Does your school have a composting facility?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q9Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q9">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+                <div class="list" style="padding-left: 20px" ng-if-start="waste.Q9Wa1 === 'Y'">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup[data.wasteGeneratedOrRecycled[2]['uploadName']].length > 0"
+                         ng-repeat="i in get0List(image_lookup[data.wasteGeneratedOrRecycled[2]['uploadName']].length)">
+                        <img src="" web-upload="{{ image_lookup[data.wasteGeneratedOrRecycled[2]['uploadName']][i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li ng-repeat="text in data.wasteGeneratedOrRecycled[2]['uploadText']">
+                            {{ text }}
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic(data.wasteGeneratedOrRecycled[2]['uploadName'])">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="remove(data.wasteGeneratedOrRecycled[2]['uploadName'])">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.data[wasteGeneratedOrRecycled[2]['uploadName']].length > 0"
+                         ng-repeat="i in get0List(images.data[wasteGeneratedOrRecycled[2]['uploadName']].length)">
+                        <img src="" image-u-r-l="{{ images.data[wasteGeneratedOrRecycled[2]['uploadName']][i] }}"
+                             height="100" width="100"
+                             alt="{{ data.wasteGeneratedOrRecycled[2]['uploadName'] }}">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload(data.wasteGeneratedOrRecycled[x]['uploadName'])">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q9Wa1 == 'Y' && !primary">
+                <div class="item item-text-wrap item-borderless">
+                    5(a) What is the methodology used?
+                </div>
+                <div class="row" ng-repeat="i in [1, 2, 3]">
+                    <div class="col col-10">
+                        <input ng-model="waste['Q9Wa2S' + i]" ng-checked="waste['Q9Wa2S' + i] === 'true'" type="checkbox">
+                    </div>
+                    <div class="col">
+                        {{ data.compostingMethodologies[i] }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-20">
+                        Other:
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste.Q9Wa2S4" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="text">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q9Wa1 == 'Y' && !primary">
+                <div class="row">
+                    5(b) What is the quantity of compost that is generated per month (in kilogram)?
+                </div>
+                <div class="row">
+                    <input ng-model="waste.Q9Wa3" class="textbox"
+                           style="border:1px solid #111;text-align: center;"
+                           type="number" string-to-number
+                           onkeypress="return isDecimalNumber(event);">
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q9Wa1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">4(a)</span><span ng-if="!primary">5(c)</span>
+                     What is the purpose of the compost that is generated per month?
+                </div>
+                <div class="row" ng-repeat="i in [1, 2, 3, 4]">
+                    <div class="col col-10">
+                        <input ng-model="waste['Q9Wa4S' + i]" ng-checked="waste['Q9Wa4S' + i] === 'true'" type="checkbox">
+                    </div>
+                    <div class="col">
+                        {{ data.purposeOfCompost[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">5.</span><span ng-if="!primary">6.</span>
+                     Does your school encourage students &amp; teachers to reuse textbooks?
+                </div>
+                <div class="row" style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q10Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q91">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="primary">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Recycling_Machine.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Recycling_Machine.length)">
+                        <img src="" web-upload="{{ image_lookup.Recycling_Machine[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of recycling units - paper recycling machine, selling paper to kabadiwala,
+                            recyclers,etc
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Recycling_Machine')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Recycling_Machine')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25">Current Uploads:</div>
+                    <div class="col" ng-if="images.Recycling_Machine.length > 0"
+                         ng-repeat="i in get0List(images.Recycling_Machine.length)">
+                        <img src="" image-u-r-l="{{ images.Recycling_Machine[i] }}" height="100" width="100"
+                             alt="Recycling_Machine">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Recycling_Machine')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    7. Please fill the table to understand whether waste recycling
+                    procedures are applied to waste.
+                </div>
+                <div class="row">
+                    <div class="col col-20">
+                        <b>Category of waste</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Local scrap collector(kabadiwala)</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Authorized dealer</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Dumped at a designated community site</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Internal procedure</b>
+                    </div>
+                </div>
+
+                <div class="row" ng-repeat="i in getList(8)">
+                    <div class="col col-20">
+                        {{ data.wasteCategories[i]['name'] }}
+                        <span ng-if="data.wasteCategories[i]['isReadMore']">
+                            <span ng-show="readMore[5 + i]">
+                                {{ data.wasteCategories[i]['readMore'] }}
+                            </span>
+                            <a ng-click="toggleReadMore(5 + i)">
+                                <span ng-show="!readMore[5 + i]">Read More</span>
+                                <span ng-show="readMore[5 + i]">Read Less</span>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="col col-20" ng-repeat="j in getList(4)">
+                        <input ng-model="waste['Q11Wa' + i + 'S' + j]"
+                               ng-checked="waste['Q11Wa' + i + 'S' + j] === 'true'" type="checkbox">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Recycling_Machine.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Recycling_Machine.length)">
+                        <img src="" web-upload="{{ image_lookup.Recycling_Machine[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of recycling units - paper recycling machine, selling paper to kabadiwala,
+                            recyclers,etc
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Recycling_Machine')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Recycling_Machine')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Recycling_Machine.length > 0"
+                         ng-repeat="i in get0List(images.Recycling_Machine.length)">
+                        <img src="" image-u-r-l="{{ images.Recycling_Machine[i] }}" height="100" width="100"
+                             alt="Recycling_Machine">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Recycling_Machine')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">6.</span><span ng-if="!primary">8.</span>
+                     Does your school have the following? If yes, please give the
+                    numbers of items in working condition and those that are not.
+                    <span class="badge" ng-click="showToolTip('Q8')">?</span>
+                </div>
+                <div class="row">
+                    <div class="col col-20">
+                        <b>Item</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>BEE Star Rating</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Working</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Non-working</b>
+                    </div>
+                    <div class="col col-20">
+                        <b>Total</b>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="i in getList(28)">
+                    <div class="col col-20">
+                        {{ data.appliances[i] }}
+                        <span ng-if="i == 11 || i == 12">
+                            <span ng-show="!readMore[16]">...</span>
+                            <span ng-show="readMore[16]">
+                                (CPU, mouse, screen and keyboard included)
+                            </span>
+                            <a ng-click="toggleReadMore(16)">
+                                <span ng-show="!readMore[16]">Read More</span>
+                                <span ng-show="readMore[16]">Read Less</span>
+                            </a>
+                        </span>
+                    </div>
+                    <div class="col col-20" ng-repeat="j in getList(3)">
+                        <input ng-model="waste['Q12Wa' + i + 'S' + j]"
+                               onkeypress="return isNumberKey(event);"
+                               ng-change="updateQ12(i, j)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number>
+                    </div>
+                    <div class="col col-20">
+                        <input ng-model="waste['Q12Wa' + i + 'S4']"
+                               class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                               readonly>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup['E-Waste'].length > 0"
+                         ng-repeat="i in get0List(image_lookup['E-Waste'].length)">
+                        <img src="" web-upload="{{ image_lookup['E-Waste'][i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of Electronic items used by school and storage of non-working electronic items.
+                        </li>
+                        <li>
+                            Certificate of disposing e-waste from authorized dealer/dismantler.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('E-Waste')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('E-Waste')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images['E-Waste'].length > 0"
+                         ng-repeat="i in get0List(images['E-Waste'].length)">
+                        <img src="" image-u-r-l="{{ images['E-Waste'][i] }}" height="100" width="100"
+                             alt="E-Waste">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('E-Waste')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">7.</span><span ng-if="!primary">9.</span>
+                    Do you know that your e-waste can be collected by an authorized dealer
+                    or dismantler?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q13Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q13">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q13Wa1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">7</span><span ng-if="!primary">9</span>(a) Who collects your e-waste, when not in working condition?
+                </div>
+                <div class="row" ng-repeat="i in getList(4)">
+                    <div class="col col-10">
+                        <input ng-model="waste.Q13Wa2" ng-value="i" type="radio" name="q13w2">
+                    </div>
+                    <div class="col">
+                        {{ data.wasteCollectors[i] }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-20">
+                        Other:
+                    </div>
+                    <div class="col">
+                        <input ng-model="waste.Q13Wa20" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="text">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup['E-waste_authorised_dealer'].length > 0"
+                         ng-repeat="i in get0List(image_lookup['E-waste_authorised_dealer'].length)">
+                        <img src="" web-upload="{{ image_lookup['E-waste_authorised_dealer'][i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Certificate of disposing e-waste from authorised dealer/dismantler.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('E-waste_authorised_dealer')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('E-waste_authorised_dealer')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images['E-waste_authorised_dealer'].length > 0"
+                         ng-repeat="i in get0List(images['E-waste_authorised_dealer'].length)">
+                        <img src="" image-u-r-l="{{ images['E-waste_authorised_dealer'][i] }}" height="100" width="100"
+                             alt="E-waste_authorised_dealer">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('E-waste_authorised_dealer')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong>Task <span ng-if="primary">4</span><span ng-if="!primary">5</span>: How does your school dispose of waste?</strong>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">8.</span><span ng-if="!primary">10.</span>
+                     What is the final destination for waste from your school that is disposed off externally?
+                </div>
+                <div class="row" ng-repeat="i in getList(4)">
+                    <div class="col col-10">
+                        <input ng-model="waste.Q14Wa1" ng-value="i" type="radio" name="q14w1">
+                    </div>
+                    <div class="col">
+                        {{ data.wasteDestination[i] }}
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Housekeeping.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Housekeeping.length)">
+                        <img src="" web-upload="{{ image_lookup.Housekeeping[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of housekeeping staff disposing different types of solid waste.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Housekeeping')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Housekeeping')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong> Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Housekeeping.length > 0"
+                         ng-repeat="i in get0List(images.Housekeeping.length)">
+                        <img src="" image-u-r-l="{{ images.Housekeeping[i] }}" height="100" width="100"
+                             alt="Housekeeping">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Housekeeping')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">9.</span><span ng-if="!primary">11.</span>
+                     Does your school burn waste?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q15Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q15w1">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="waste.Q15Wa1 === 'Y'">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Burning_Waste.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Burning_Waste.length)">
+                        <img src="" web-upload="{{ image_lookup.Burning_Waste[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of burning waste.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Buring_Waste')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Buring_Waste')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Buring_Waste.length > 0"
+                         ng-repeat="i in get0List(images.Buring_Waste.length)">
+                        <img src="" image-u-r-l="{{ images.Buring_Waste[i] }}" height="100" width="100"
+                             alt="Buring_Waste">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Buring_Waste')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q15Wa1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">9</span><span ng-if="!primary">11</span>(a) Where does your school burn waste?
+                </div>
+                <div class="row" ng-repeat="i in getList(2)">
+                    <div class="col col-10">
+                        <input ng-model="waste.Q15Wa2" ng-value="i" type="radio" name="q15w2">
+                    </div>
+                    <div class="col">
+                        {{ data.whereToBurn[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q15Wa1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">9</span><span ng-if="!primary">11</span>(b)
+                     What kind of waste is burnt/ incinerated?
+                </div>
+                <div class="row" ng-repeat="i in getList(4)">
+                    <div class="col col-10">
+                        <input ng-model="waste['Q15Wa2S' + i]"
+                               ng-checked="waste['Q15Wa2S' + i] === 'true'" type="checkbox">
+                    </div>
+                    <div class="col">
+                        {{ data.wasteBurnType[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">10.</span><span ng-if="!primary">12.</span>
+                    Do you know that your E-waste can be collected by an authorized dealer
+                    or dismantler?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q16Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q16w1">&nbsp;<span
+                            style="position:absolute">{{ data.yesNo[i][1] }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong>
+                    Task <span ng-if="primary">5</span><span ng-if="!primary">6</span>: School’s
+                    initiatives</strong>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <div>
+                    <span>It is important to </span>
+                    <span ng-show="!readMore[15]">...</span>
+                    <span ng-show="readMore[15]">
+                        appreciate the initiatives taken by the management on issues related to waste.
+                        The management&#39;s approach to these issues can be assessed in the
+                        following way: Seek an appointment with the Chairperson, Manager and
+                        Principal of your school and ask them the following questions:
+                    </span>
+                    <a ng-click="toggleReadMore(15)">
+                        <span ng-show="!readMore[15]">Read More</span>
+                        <span ng-show="readMore[15]">Read Less</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">11.</span> <span ng-if="!primary">13.</span>
+                     Does the school have a policy on waste?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q17Wa1" ng-value="data.yesNo[i][0]" type="radio" name="q17w1">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="waste.Q17Wa1 === 'Y'">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Waste_Policy.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Waste_Policy.length)">
+                        <img src="" web-upload="{{ image_lookup.Waste_Policy[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Waste Policy.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Waste_Policy')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Waste_Policy')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong> Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Waste_Policy.length > 0"
+                         ng-repeat="i in get0List(images.Waste_Policy.length)">
+                        <img src="" image-u-r-l="{{ images.Waste_Policy[i] }}" height="100" width="100"
+                             alt="Waste_Policy">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Waste_Policy')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">12.</span><span ng-if="!primary">14.</span>
+                     Are there awareness drives with regard to Reduce, Recycle and Reuse?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q18Wa1" ng-value="data.yesNo[i][0]" type="radio" name="Q18Wa1">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="waste.Q18Wa1 === 'Y'">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.School_Initiatives.length > 0"
+                         ng-repeat="i in get0List(image_lookup.School_Initiatives.length)">
+                        <img src="" web-upload="{{ image_lookup.School_Initiatives[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of various school initiatives e.g. rally, debate, street play, art competition, etc.
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('School_Initiatives')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('School_Initiatives')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.School_Initiatives.length > 0"
+                         ng-repeat="i in get0List(images.School_Initiatives.length)">
+                        <img src="" image-u-r-l="{{ images.School_Initiatives[i] }}" height="100" width="100"
+                             alt="School_Initiatives">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('School_Initiatives')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card" ng-if="waste.Q18Wa1 === 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">12</span><span ng-if="!primary">14</span>(a)
+                     What form do these awareness drives take?
+                </div>
+                <div class="row" ng-repeat="i in getList(3)">
+                    <div class="col col-10">
+                        <input ng-model="waste['Q18Wa2S' + i]" ng-checked="waste['Q18Wa2S' + i] === 'true'" type="checkbox">
+                    </div>
+                    <div class="col">
+                        {{ data.awarenessDrives[i] }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    15. Is the study of the environment integrated into the curriculum?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12" ng-repeat="i in [1, 2]">
+                        <input ng-model="waste.Q19Wa1" ng-value="data.yesNo[i][0]" type="radio" name="Q19Wa1">&nbsp;
+                        <span style="position:absolute">
+                            {{ data.yesNo[i][1] }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Audit_Team_Doing_Survey_Waste.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Audit_Team_Doing_Survey_Waste.length)">
+                        <img src="" web-upload="{{ image_lookup.Audit_Team_Doing_Survey_Waste[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>Pictures of audit team doing survey.</li>
+                        <li>Please upload all supporting documents related to this section here.</li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Audit_Team_Doing_Survey_Waste')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Audit_Team_Doing_Survey_Waste')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25"><strong>Current UPloads:</strong></div>
+                    <div class="col" ng-if="images.Audit_Team_Doing_Survey_Waste.length > 0"
+                         ng-repeat="i in get0List(images.Audit_Team_Doing_Survey_Waste.length)">
+                        <img src="" image-u-r-l="{{ images.Audit_Team_Doing_Survey_Waste[i] }}" height="100" width="100"
+                             alt="Audit_Team_Doing_Survey_Waste">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Audit_Team_Doing_Survey_Waste')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="list card">
+                <div class="button-bar">
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="goToPrev()">PREV</a>
+                    &nbsp;
+                    <a class="button background-color text-white" ng-disabled="!validNext() || !validationQuestion() "
+                       ion-chevron-right nav-clear ng-click="quiz2(waste)">NEXT</a>
+                    &nbsp;
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="saveData()">SAVE</a>
+                </div>
+            </div>
+
+        </ion-scroll>
+    </ion-content>
+</ion-view>

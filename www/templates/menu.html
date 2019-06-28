@@ -1,0 +1,87 @@
+<ion-side-menus enable-menu-with-back-views="true">
+    <ion-side-menu-content>
+        <ion-nav-bar class="background-color" align-title="center">
+            <!--  <ion-nav-back-button>
+             </ion-nav-back-button> -->
+
+            <ion-nav-buttons side="left">
+                <button class="text-white button button-icon button-clear ion-navicon" menu-toggle="left">
+                </button>
+            </ion-nav-buttons>
+            <ion-nav-buttons side="right">
+                <button class="text-white button button-icon button-clear " menu-toggle="right" ng-click="toggleHelp()">
+                    <img src="img/logogsp (3).png" height="100%" width="100%">
+                </button>
+
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="left">
+        <ion-content class="my-menu">
+            <!-- <div style="padding-top:10px"></div> -->
+            <ion-list>
+
+                <ion-item class="title  item-borderless">
+                    <p class="fs-12 text-white padding-top" style="text-align: center;">WELCOME (
+                        {{ schoolName }}  )
+                    </p>
+                </ion-item>
+                    <ion-item class="item-borderless fs-12" ng-click="syncFromServer()" menu-close>
+                        <img src="img/sync.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;  SYNC FROM PORTAL
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="profile()" menu-close>
+                        <img src="img/profile.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;
+                        <span style="vertical-align: middle"> SCHOOL PROFILE </span>
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="general()" menu-close href="#/app/general1">
+                        <img src="img/general@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;GENERAL QUESTIONS
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="air()" menu-close>
+                        <img src="img/air@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;AIR
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="energy()" menu-close>
+                        <img src="img/energy@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;ENERGY
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="food()" menu-close>
+                        <img src="img/food@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;FOOD
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="land()" menu-close>
+                        <img src="img/land@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;LAND
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="water()" menu-close>
+                        <img src="img/water@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;WATER
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" ng-click="waste()" menu-close>
+                        <img src="img/waste@.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;WASTE
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" menu-close ng-click="feedback()">
+                        <img src="img/feedback.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;FEEDBACK
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" menu-close ng-click="faq()">
+                        <img src="img/faq.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;FAQ
+                    </ion-item>
+
+                    <ion-item class="item-borderless fs-12" menu-close ng-click="settings()">
+                        <img src="img/settings.png" width="{{ iconHeight }}px" height="{{ iconHeight }}px">&nbsp;SETTINGS
+                    </ion-item>
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>
+<style type="text/css">
+.item-borderless img{ width:20px; height:20px; margin-right:12px; margin-top:0px; position:relative; top:4px;}
+.item-borderless{ border-bottom:1px solid #ccc!important;}
+.item-borderless:last-child{ border-bottom:none!important;}
+</style>

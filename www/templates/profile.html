@@ -1,0 +1,273 @@
+<ion-view title="School Profile" ng-controller="profileCtrl">
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+    <ion-content scroll="false">
+
+        <div class="button-bar">
+            <a class="button background-color text-white" ion-chevron-right
+               nav-clear ng-click="openModal()">
+                <!--Watch Video Tutorial <img align="right" src="img/green-school-video-icon.png"
+                                          style="width : auto ; height : auto" ng-click="openModal()">-->
+            </a>
+        </div>
+
+        <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+            <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+        </div>
+
+        <p style="text-align: center">Progress: {{ progress }}% </p>
+
+        <ion-scroll direction="y" class="theroot">
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    0. UDISE Code of the School / Institution:
+                </div>
+                <label class="item item-input">
+                    <input ng-value="profile.udise" type="text" placeholder="UDISE Code of the School / Institution"
+                           class="textbox">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    1. Name of the School / Institution:
+                </div>
+                <label class="item item-input">
+                    <input ng-value="profile.name" type="text" placeholder="Name of the School/Institution"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    2. Address line 1:
+                </div>
+                <label class="item item-input">
+                    <input ng-value="profile.address1" type="text" placeholder="Address line 1"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    3. Address line 2:
+                </div>
+                <label class="item item-input">
+                    <input ng-value="profile.address2" type="text" placeholder="Address line 2"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <label class="item item-input item-select">
+                    <div class="input-label fs-12">
+                        4. Country:
+                    </div>
+                    <select class="fs-12" ng-model="profile.country"
+                                ng-options="option for option in data.countries" disabled ng-click="showToolTip('messageTooltip')">
+                    </select>
+                </label>
+            </div>
+
+            <div class="card">
+                <label class="item item-input item-select">
+                    <div class="input-label fs-12">
+                        5. State:
+                    </div>
+                    <select class="fs-12" ng-model="profile.state" ng-change="updateDistricts()" disabled ng-click="showToolTip('messageTooltip')">
+                        <option ng-repeat="(key, value) in data.states" value="{{ key }}">
+                            {{ value }}
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="card">
+                <label class="item item-input item-select">
+                    <div class="input-label fs-12">
+                        6. District:
+                    </div>
+                    <select class="fs-12" ng-model="profile.district" disabled ng-click="showToolTip('messageTooltip')">
+                        <option ng-repeat="(key, value) in data.districts" value="{{ key }}">
+                            {{ value }}
+                        </option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    7. City:
+                </div>
+                <label class="item item-input">
+                    <input ng-model="profile.city" type="text" placeholder="City"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    8. PIN Code:
+                </div>
+                <label class="item item-input">
+                    <input ng-model="profile.pincode" type="number" min="0"
+                           step="1" onkeypress="return isNumberKey(event)" placeholder="PIN"
+                           class="textbox" string-to-number limit-to="6" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    9. Telephone Number (Landline Number):
+                </div>
+                <div class="row">
+                    <div class="col-33 col">
+                        <label class="item item-input">
+                            <input ng-model="profile.std" type="number" min="0" onkeypress="return isNumberKey(event)"
+                                   placeholder="STD Code" class="textbox" string-to-number limit-to="5" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                    <div class="col-67 col">
+                        <label class="item item-input">
+                            <input ng-model="profile.telephone" type="number" min="0" onkeypress="isNumberKey(event)"
+                                   placeholder="Number" class="textbox" string-to-number limit-to="8" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    10. Mobile Number:
+                </div>
+                <div class="row">
+                    <div class="col col-33">
+                        <label class="item item-input">
+                            <input ng-value="profile.Q10P1" type="text" min="0"
+                                   class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                    <div class="col col-67">
+                        <label class="item item-input">
+                            <input ng-model="profile.mobile" type="number" min="0" onkeypress="return isNumberKey(event)"
+                                   placeholder="10 Digit Mobile Number" class="textbox" string-to-number limit-to="10" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    11. Principal's Name:
+                </div>
+                <label class="item item-input">
+                    <input ng-model="profile.principle_name" type="text" placeholder="Principal Name"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    12. GSP Coordinator's Name:<span class="badge gbadge" ng-click="showToolTip('Q12')">?</span>
+                </div>
+                <label class="item item-input">
+                    <input ng-model="profile.coname" type="text" placeholder="GSP Coordinator Name"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    13. GSP Coordinator's Email:
+                </div>
+                <label class="item item-input">
+                    <input ng-model="profile.coemail" type="email" placeholder="GSP Coordinator Email"
+                           class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                </label>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    14. GSP Coordinator's Mobile Number:
+                </div>
+                <div class="row">
+                    <div class="col col-33">
+                        <label class="item item-input">
+                            <input ng-value="profile.Q14P1" type="text" min="0"
+                                   class="textbox" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                    <div class="col col-67">
+                        <label class="item item-input">
+                            <input ng-model="profile.comobile" type="number" min="0"
+                                   onkeypress="return isNumberKey(event)" placeholder="10 Digit Mobile Number"
+                                   class="textbox" string-to-number limit-to="10" readonly ng-click="showToolTip('messageTooltip')">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    15. Please select the appropriate category for your school:
+                    <span class="badge gbadge" ng-click="showToolTip('Q15')">?</span>
+                </div>
+
+                <ion-item class="fs-14 item-text-wrap" ng-repeat="(key, value) in data.schoolCategories track by $index">
+                    <input ng-model="profile.Q1S1" type="radio" ng-value="key+1" name="e"><span
+                        style="position:absolute"> &nbsp; {{ value }} </span>
+                </ion-item>
+            </div>
+               
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    16. How many shifts does your school have
+                    <span class="badge" ng-click="showToolTip('Q16')">?</span>
+                </div>
+
+                <ion-item class="fs-14 item-text-wrap" ng-repeat="(key, value) in data.schoolShifts track by $index">
+                    <input ng-model="profile.Q2S1" type="radio" ng-value="key + 1" name="f"><span
+                        style="position:absolute"> &nbsp; {{ value }} </span>
+                </ion-item>
+            </div>
+            
+
+          <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    17. School Level:
+                </div>
+
+                <ion-item class="fs-13 item-text-wrap" ng-repeat="(key, value) in data.schoolLevels track by $index">
+                    <input ng-model="profile.Q10G1" type="radio" ng-value="key + 1" name="g"><span
+                        style="position:absolute"> &nbsp; {{ value }} </span>
+                </ion-item>
+            </div>  
+
+
+
+            <div class="list card">
+                <!--||questiongeneral.id==numberOfQuestions-1-->
+                <div class="button-bar">
+                    <!-- <a class="button background-color text-white" ng-hide="question.id==numberOfQuestions-1" -->
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="quiz2(profile)"
+                       ng-disabled="!validNext()">
+                        NEXT
+                    </a>
+                    &nbsp;
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="saveData()">
+                        SAVE
+                    </a>
+                    <!-- ng-click="quiz2()" -->
+                    <!--  <a class="button background-color text-white" ng-show="question.id>=numberOfQuestions-1" ion-chevron-right nav-clear href="#/tab/results">COMPLETE</a> -->
+                </div>
+            </div>
+
+        </ion-scroll>
+    </ion-content>
+</ion-view>

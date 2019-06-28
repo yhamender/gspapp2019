@@ -1,0 +1,1057 @@
+<ion-view title="Energy {{ primaryText }}" ng-controller="energyCtrl">
+
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+        function isNumberInRange(evt, lo, hi) {
+            var lowerLimit = 48 + lo;
+            var higherLimit = 48 + hi;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            return !(charCode > 31 && (charCode < lowerLimit || charCode > higherLimit));
+        }
+        function isDecimalNumber(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+
+    <ion-content scroll="false" ng-init="loadPageData()">
+
+        <div class="button-bar">
+            <a class="button background-color text-white" ion-chevron-right
+               nav-clear ng-click="openModal()">
+                Watch Video Tutorial <img align="right" src="img/green-school-video-icon.png"
+                                          style="width : auto ; height : auto" ng-click="openModal()">
+            </a>
+        </div>
+
+        <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+            <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+        </div>
+        <p style="text-align: center">Progress: {{ progress }}% </p>
+
+        <ion-scroll direction="y" class="theroot">
+
+            <div class="list" style="margin-left: 8px;margin-right: 8px">
+                Prior to answering these questions, please consider using a meter to measure the monthly average amount
+                of energy used from the respective energy sources.
+
+                <strong>The unit of measurement to be used in the Energy section is megajoule (mj).</strong>
+
+            </div>
+
+            <div class="list" style="margin-left: 5px;margin-right: 5px">
+                <strong>Task 1: Choose your Energy Audit Team</strong><br>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <p>The school
+                    <span ng-show="!readMore[1]">...</span>
+                    <span ng-show="readMore[1]">
+                        administrative staff must be members of your team as you would
+                        require electricity bills, fuel consumption bills, etc. Other
+                        support staff such as generator attendant and electricians are
+                        also important contacts. It would be a good idea to rope in a
+                        Physics or Science teacher as well and, most importantly, a team
+                        of five to 10 of your schoolmates.
+                    </span>
+                    <a ng-click="toggleReadMore(1)">
+                        <span ng-show="!readMore[1]">Read More</span>
+                        <span ng-show="readMore[1]">Read Less</span>
+                    </a>
+                </p>
+
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Teachers (maximum of three teachers can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateTeacher('E')">
+                    Please enter details of at least 1 teacher
+                </span>
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col">Email ID</div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3]">
+                    <div class="col col-10">{{ i }}</div>
+                    <div class="col">
+                        <input ng-model="energy['Q1E' + i + 'S1']" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="energy['Q1E' + i + 'S3']" class="textbox"
+                               style="border:1px solid #111;text-align: center;"
+                               type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="energy['Q1E' + i + 'S2']" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="email">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Administrative staff (maximum of five staff can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validStaff('E')">
+                    Please enter details of at least one staff.
+                </span>
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col"> Email ID</div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">1</div>
+                    <div class="col">
+                        <input ng-model="energy.Q2E1S1" id='questionenergytwoOneName' class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="energy.Q2E1S3" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="energy.Q2E1S2" id='questionenergytwoOneEmail' class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">2</div>
+                    <div class="col"><input ng-model="energy.Q2E2S1" id='questionenergytwoTwoName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E2S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E2S2" id='questionenergytwoTwoEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+
+                <div class="row ">
+                    <div class="col col-10">3</div>
+                    <div class="col"><input ng-model="energy.Q2E3S1" id='questionenergytwoThreeName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E3S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E3S2" id='questionenergytwoThreeEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">4</div>
+                    <div class="col"><input ng-model="energy.Q2E4S1" id='questionenergytwoFourName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E4S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E4S2" id='questionenergytwoFourEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">5</div>
+                    <div class="col"><input ng-model="energy.Q2E5S1" id='questionenergytwoFiveName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E5S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q2E5S2" id='questionenergytwoFiveEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Students (maximum of ten students can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateStudent('E')">
+                    Please enter details of at least 1 student.
+                </span>
+
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col">Grade</div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">1</div>
+                    <div class="col"><input ng-model="energy.Q3E1S1" id='questionenergythreeOneName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E1S2" id='questionenergythreeOneEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E1S3" id='questionenergythreeOneGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">2</div>
+                    <div class="col"><input ng-model="energy.Q3E2S1" id='questionenergythreeTwoName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E2S2" id='questionenergythreeTwoEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E2S3" id='questionenergythreeTwoGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">3</div>
+                    <div class="col"><input ng-model="energy.Q3E3S1" id='questionenergythreeThreeName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E3S2" id='questionenergythreeThreeEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E3S3" id='questionenergythreeThreeGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">4</div>
+                    <div class="col"><input ng-model="energy.Q3E4S1" id='questionenergythreeFourName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E4S2" id='questionenergythreeFourEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E4S3" id='questionenergythreeFourGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">5</div>
+                    <div class="col"><input ng-model="energy.Q3E5S1" id='questionenergythreeFiveName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E5S2" id='questionenergythreeFiveEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E5S3" id='questionenergythreeFiveGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">6</div>
+                    <div class="col"><input ng-model="energy.Q3E6S1" id='questionenergythreeSixName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E6S2" id='questionenergythreeSixEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E6S3" id='questionenergythreeSixGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">7</div>
+                    <div class="col"><input ng-model="energy.Q3E7S1" id='questionenergythreeSevenName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E7S2" id='questionenergythreeSevenEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E7S3" id='questionenergythreeSevenGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">8</div>
+                    <div class="col"><input ng-model="energy.Q3E8S1" id='questionenergythreeEightName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E8S2" id='questionenergythreeEightEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E8S3" id='questionenergythreeEightGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">9</div>
+                    <div class="col"><input ng-model="energy.Q3E9S1" id='questionenergythreeNineName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E9S2" id='questionenergythreeNineEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E9S3" id='questionenergythreeNineGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">10</div>
+                    <div class="col"><input ng-model="energy.Q3E10S1" id='questionenergythreeTenName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E10S2" id='questionenergythreeTenEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="energy.Q3E10S3" id='questionenergythreeTenGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+            </div>
+
+            <div class="list" style="margin-left: 5px;margin-right: 5px">
+                <strong>Task 2: How much energy does your school consume?</strong><br/>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <p>
+                    In this
+                    <span ng-show="!readMore[2]">...</span>
+                    <span ng-show="readMore[2]">
+                        section you will be asked questions related to energy consumption of your
+                        school. This will involve finding out the different sources of energy used
+                        and jotting down the monthly consumption.
+                        <br/>
+                        <br/>
+                        <span class="fs-16">
+                            <b>To collect data:</b>
+                        </span>
+                        <br/>
+                        Please collect all the bills that your school receives for its energy
+                        consumption, e.g. electricity and gas bills. If the frequency of any energy
+                        consumption bill is fortnightly, bi-monthly, quarterly or half yearly, try
+                        to convert them into monthly averages. Take an average of the bills for a
+                        minimum of four months – e.g January to April.
+                        <br/><span class="fs-16"><b>Electricity:</b></span><br/>
+                        The audit team will have to get in touch with the administrative staff in
+                        the school office to procure the electricity bills.
+                        <br/><span class="fs-16"><b> Diesel:</b></span><br/>
+                        Ask the generator attendant to show the log book of fuels and find out how
+                        many litres are being used. If diesel is being used for transport, the transport
+                        in-charge will have the register/log book with details about the amount consumed
+                        and cost paid. Remember the energy output of a generator would be taken only in terms of input, i.e, fuel used.
+                        <br/><span class="fs-16"><b>LPG:</b></span><br/>
+                        Ask the mess/canteen staff, how many cylinders are used in one month on an average. Remember each gas
+                        cylinder generally weighs 14.2 kg.
+                    </span>
+                    <a ng-click="toggleReadMore(2)">
+                        <span ng-show="!readMore[2]">Read More</span>
+                        <span ng-show="readMore[2]">Read Less</span>
+                    </a>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    1.Does your school has access to an electricity bill?
+                </div>
+
+                <div class="row" style="padding-left: 20px">
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q4E1" type="radio" ng-value="'Y'" name="b">&nbsp;<span
+                            style="position:absolute"> Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q4E1" type="radio" ng-value="'N'" name="b">&nbsp;<span
+                            style="position:absolute">No</span>
+                    </div>
+                </div>
+                <div ng-if-start="energy.Q4E1 == 'Y'" class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Electricity_Bill.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Electricity_Bill.length)">
+                        <img src="" web-upload="{{ image_lookup.Electricity_Bill[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <label class="col"><b>Please upload a recent electricity bill</b></label>
+                    <button class="button button-assertive button-small" type="button" ng-click="takepic('Electricity_Bill')">Take Picture</button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Electricity_Bill')">Remove Picture</button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Electricity_Bill.length > 0"
+                         ng-repeat="i in get0List(images.Electricity_Bill.length)">
+                        <img src="" image-u-r-l="{{ images.Electricity_Bill[i] }}" height="100" width="100" alt="Electricity Bill">
+                    </div>
+                </div>
+
+                <div ng-if-end class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Electricity_Bill')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    2. Does your school has its own vehicles?
+                </div>
+
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12">
+                        <input ng-change="updateQ5()" ng-model="energy.Q5E1" type="radio"
+                               ng-value="'Y'" name="d">&nbsp;<span
+                            style="position:absolute">Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-change="updateQ5()" ng-model="energy.Q5E1" type="radio"
+                               ng-value="'N'" name="d">&nbsp;<span
+                            style="position:absolute">No</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card" ng-if="!primary">
+
+                <div class="item item-text-wrap item-borderless">
+                    3. Provide the details of total energy consumed by the school:
+                </div>
+
+                <span class="badge" ng-click="showToolTip('Q6')">
+                    ?
+                </span>
+
+                <div class="row ">
+                    <div class="col">Source of energy</div>
+                    <div class="col">Quantity consumed/monthly average</div>
+                    <div class="col">Energy consumed in Megajoules (mj)</div>
+                    <div class="col">Type of use</div>
+                </div>
+
+                <span class="validation-error" ng-hide="validateQ6E1()">
+                    Please enter value in the Electricity from the board box.
+                </span>
+
+                <div class="row " ng-repeat="i in [1, 2, 3, 4, 5, 6, 7, 16, 8, 9, 10, 11, 12, 13, 14]">
+                    <div class="col">{{ data.sourcesOfEnergy[i] }}</div>
+                    <div class="col">
+                        <input ng-model="energy['Q6E' + i + 'S1']" onkeypress="return isDecimalNumber(event);"
+                               ng-change="updateQ6(i)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number>
+                    </div>
+                    <div class="col"><input ng-model="energy['Q6E' + i + 'S2']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number"
+                                            string-to-number readonly>
+                    </div>
+                    <div class="col"><input ng-model="energy['Q6E' + i + 'S3']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text" limit-to="11"
+                                            ng-keypress="updateQ6S3(i, $event)"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col">Total</div>
+                    <div class="col"><input ng-hide="true" ng-value="energy.Q6E15S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number" readonly>
+                    </div>
+                    <div class="col"><input ng-value="energy.Q6E15S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number"
+                                            readonly></div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Fuels_Bills.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Fuels_Bills.length)">
+                        <img src="" web-upload="{{ image_lookup.Fuels_Bills[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <label class="col"><b>Please upload fuel bills</b></label>
+                    <button class="button button-assertive button-small" type="button" ng-click="takepic('Fuels_Bills')">Take Picture</button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Fuels_Bills')">Remove Picture</button>
+                    <div class="col col-25"><strong>Current Uploads</strong></div>
+                    <div class="col" ng-if="images.Fuels_Bills.length > 0"
+                         ng-repeat="i in get0List(images.Fuels_Bills.length)">
+                        <img src="" image-u-r-l="{{ images.Fuels_Bills[i] }}" height="100" width="100" alt="Fuels Bills">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Fuels_Bills')">
+                        Upload
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card" ng-if="primary">
+
+                <div class="item item-text-wrap item-borderless">
+                    3. Please share if your school uses the following types of energy:
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3, 4, 5, 6, 7, 16, 8, 9, 10, 11, 12, 13]">
+                    <div class="col col-60">{{ data.sourcesOfEnergy[i] }}</div>
+                    <div class="col">
+                        <input type="radio" ng-model="energy['Q6E' + i]" ng-value="'Y'" name="q6ep{{ i }}">
+                        <span>Yes</span>
+                    </div>
+                    <div class="col">
+                        <input type="radio" ng-model="energy['Q6E' + i]" ng-value="'N'" name="q6ep{{ i }}">
+                        <span>No</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    4. What appliances does your school have?
+                </div>
+
+                <div class="row ">
+                    <div class="col col-40"><b>Appliances/Equipments</b></div>
+                    <div class="col"> <b>Number</b></div>
+                    <div class="col" ng-if-start="!primary"> <b>Size</b></div>
+                    <div class="col" ng-if-end><b>BEE Star Rating</b></div>
+                </div>
+
+                <div class="row" ng-repeat="i in [2, 3, 4, 5, 6, 7, 8]">
+                    <div class="col col-40">{{ data.appliances[i]['name'] }}</div>
+                    <div class="col"><input ng-model="energy['Q7E' + i + 'S1']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            onkeypress="return isNumberKey(event);" type="number" string-to-number>
+                    </div>
+                    <div class="col" ng-if-start="!primary"><input ng-model="energy['Q7E' + i + 'S2']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            onkeypress="return isNumberKey(event);" type="number" string-to-number
+                                            placeholder="(in {{ data.appliances[i]['unit'] }})">
+                    </div>
+                    <div class="col" ng-if-end><input ng-model="energy['Q7E' + i + 'S3']" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            onkeypress="return isNumberKey(event);" type="number" string-to-number
+                                            ng-change="validQ7S3('Q7E' + i + 'S3')"></div>
+                </div>
+
+                <hr/>
+
+                <div class="list" style="padding-left: 20px" ng-if-start="!primary">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Five_Star_Appliances.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Five_Star_Appliances.length)">
+                        <img src="" web-upload="{{ image_lookup.Five_Star_Appliances[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <label class="col"><b>Please upload a picture of 5 star appliances used by your school</b></label>
+                    <button class="button button-assertive button-small" type="button" ng-click="takepic('Five_Star_Appliances')">Take Picture</button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Five_Star_Appliances')">Remove Picture</button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Five_Star_Appliances.length > 0"
+                         ng-repeat="i in get0List(images.Five_Star_Appliances.length)">
+                        <img src="" image-u-r-l="{{ images.Five_Star_Appliances[i] }}" height="100" width="100" alt="Five Star Appliances">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px" ng-if-end>
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Five_Star_Appliances')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="list" style="margin-left: 5px;margin-right: 5px">
+                <strong>Task 3: Is your school using any renewable sources of energy?</strong>
+            </div>
+
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    5. What is the average number of sunny days in your area ?
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q8E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q8E1', 366)">
+                        </label>
+                    </ion-list>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">5.</span><span ng-if="!primary">6.</span> Are there any alternate sources of energy employed/installed in your school?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q9E1" ng-change="checkQ9E1()" type="radio" ng-value="'Y'" name="e">&nbsp;<span
+                            style="position:absolute">Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q9E1" ng-change="checkQ9E1()" type="radio" ng-value="'N'" name="e">&nbsp;<span
+                            style="position:absolute">No</span>
+                    </div>
+                </div>
+
+                <div ng-if-start="energy.Q9E1 == 'Y'" class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Alternative_Source_of_Energy.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Alternative_Source_of_Energy.length)">
+                        <img src="" web-upload="{{ image_lookup.Alternative_Source_of_Energy[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <label class="col">
+                        <b>Please upload a picture of alternative source of energy installed that
+                            is currently in use.</b>
+                    </label>
+                    <button class="button button-assertive button-small" type="button" ng-click="takepic('Alternative_Source_of_Energy')">Take Picture</button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Alternative_Source_of_Energy')">Remove Picture</button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Alternative_Source_of_Energy.length > 0"
+                         ng-repeat="i in get0List(images.Alternative_Source_of_Energy.length)">
+                        <img src="" image-u-r-l="{{ images.Alternative_Source_of_Energy[i] }}" height="100" width="100" alt="Alternative Source of Energy">
+                    </div>
+                </div>
+
+                <div ng-if-end class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Alternative_Source_of_Energy')">
+                        Upload
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">5(a)</span><span ng-if="!primary">6(a)</span> If yes, do you use:
+                </div>
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S1" ng-change="checkQ9E1S(1, 9)" type="checkbox" ng-value="'1'"
+                           ng-checked="energy.Q9E1S1==='1'" name="f"><span
+                        style="position:absolute">&nbsp;Solar</span>
+                </ion-item>
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S2" ng-change="checkQ9E1S(2, 10)" type="checkbox" ng-value="'2'"
+                           ng-checked="energy.Q9E1S2==='1'" name="f"><span
+                        style="position:absolute">&nbsp;Wind</span>
+                </ion-item>
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S3" type="checkbox" ng-value="'3'" name="f" ng-checked="energy.Q9E1S3==='1'"><span
+                        style="position:absolute">&nbsp;Hydro</span>
+                </ion-item>
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S4" type="checkbox" ng-value="'4'" name="f" ng-checked="energy.Q9E1S4==='1'"><span
+                        style="position:absolute">&nbsp;Combination of Solar & Wind</span>
+                </ion-item>
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S5" ng-change="checkQ9E1S(5, 13)" type="checkbox" ng-value="'5'"
+                           ng-checked="energy.Q9E1S5==='1'" name="f"><span
+                        style="position:absolute">&nbsp;Biogas</span>
+                </ion-item>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">6.</span><span ng-if="!primary">7.</span> Does your school use solar water heater?
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q10E1" type="radio" ng-value="'Y'" name="fq">&nbsp;<span
+                            style="position:absolute">Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q10E1" type="radio" ng-value="'N'" name="fq">&nbsp;<span
+                            style="position:absolute">No</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Supporting_Document_Energy.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Supporting_Document_Energy.length)">
+                        <img src="" web-upload="{{ image_lookup.Supporting_Document_Energy[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <label class="col">
+                        <b>Picture of audit team doing the survey.</b>
+                    </label>
+                    <button class="button button-assertive button-small" type="button" ng-click="takepic('Supporting_Document_Energy')">Take Picture</button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Supporting_Document_Energy')">Remove Picture</button>
+                    <div class="col col-25"><strong>Current Uploads:</strong></div>
+                    <div class="col" ng-if="images.Supporting_Document_Energy.length > 0"
+                         ng-repeat="i in get0List(images.Supporting_Document_Energy.length)">
+                        <img src="" image-u-r-l="{{ images.Supporting_Document_Energy[i] }}" height="100" width="100" alt="Alternative Source of Energy">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Supporting_Document_Energy')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">7.</span><span ng-if="!primary">8.</span> Did you avail any state subsidy for installation?          
+
+                </div>
+                <div class="row " style="padding-left: 20px">
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q11E1" type="radio" ng-value="'Y'" name="ff">&nbsp;<span
+                            style="position:absolute">Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-model="energy.Q11E1" type="radio" ng-value="'N'" name="ff">&nbsp;<span
+                            style="position:absolute">No</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary"></span><span ng-if="!primary"></span> (A) Solar rooftop systems
+
+          
+
+                </div>
+            </div>
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    9. What is the installed capacity of solar photovoltaic (PV) panels on the school rooftop (in kW)? ? 
+ 
+                
+                     <span class="badge" ng-click="showToolTip('Q17')">?</span>
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q13E1" type="number" string-to-number 
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q13E1', 3606)">
+                        </label>
+                    </ion-list>
+
+                </div>
+            </div>
+            
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+
+                <div class="item item-text-wrap item-borderless">
+                    10. What is the connected load of the school (kW)?? 
+                
+                     <span class="badge" ng-click="showToolTip('Q17')">?</span>
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q14E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q14E1', 3606)">
+                        </label>
+                    </ion-list>
+
+                </div>
+            </div>
+
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+
+                <div class="item item-text-wrap item-borderless" >
+                    11. What is the size of invertors associated with the solar photovoltaic panel (W)?  
+                    <div class="content" style="text-align: justify;">
+                        <p>
+                            Inverters are
+                            <span ng-show="!readMore[3]">...</span>
+                            <span ng-show="readMore[3]">
+                                 required to convert the direct current (DC) output generated by solar rooftop systems or batteries to alternating current (AC) for further use. In general inverter wattage (expressed in kilo-volt-amperes or kVA) is 20-25 per cent more than that installed capacity. 
+                                <br/>
+                                
+                                
+                            </span>
+                            <a ng-click="toggleReadMore(3)">
+                                <span ng-show="!readMore[3]">Read More</span>
+                                <span ng-show="readMore[3]">Read Less</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q15E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q15E1', 3660)">
+                        </label>
+                    </ion-list>
+
+                </div>
+            </div>
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary"></span><span ng-if="!primary"></span>12. What operational model has been adopted for the solar rooftop system? 
+                    <div class="content" style="text-align: justify;">
+                        <p>
+                            Inverters are
+                            <span ng-show="!readMore[2]">...</span>
+                            <span ng-show="readMore[2]">
+                                Solar rooftop systems can either be standalone (off-grid) or grid-connected. A standalone system is wired only to the house and requires a battery back up to store any excess power generated, or meet power deficits. Example: standalone solar street lights, solar lamps, rooftop panels 
+                                Grid-interactive systems, on the other hand, utilise the grid for storing and extracting electricity, as per the requirement. Example: Solar rooftop panels, on ground solar panels etc. Interactions with the grid can be facilitated either via gross or net metering. 
+                                Under gross metering, all generated electricity is sold to the grid at average cost of supply (ACoS), as determined by the regional distribution company. And the consumer continues to procure all needed power from the DISCOM, as per their tariff bracket. The bills are either settled individually or as net billing. 
+                                Whereas under net metering, the consumer consumes all the energy produced by the solar rooftop (SRT) system. And relies on the grid for any excess energy required. The consumer is only charged for the excess energy they consume, as per their tariff bracket. Any surplus generation can be fed back to the grid. This information will also be reflected in the electricity bill of the school as under a net-metering billing would only be for net consumption. 
+                                Generally on-grid systems have benefit of transferring surplus power to grid, while in case of off-grid systems, surplus power may get wasted if there is not enough battery storage available.  <br/>
+                                
+                                
+                            </span>
+                            <a ng-click="toggleReadMore(2)">
+                                <span ng-show="!readMore[2]">Read More</span>
+                                <span ng-show="readMore[2]">Read Less</span>
+                            </a>
+                        </p>
+                    </div>
+                </div>
+                <div class="list " style="padding-left: 20px">
+                    <div class="col fs-14">
+                        <input ng-model="energy.Q16E1" type="radio" ng-value="'1'" name="fa">&nbsp;<span
+                            style="position:absolute">Off-grid</span>
+                    </div>
+                    <div class="col fs-14 " >
+                        <input ng-model="energy.Q16E1" type="radio" ng-value="'2'" name="fa">&nbsp;<span
+                            style="position:absolute">On-grid net metering</span>
+                    </div>
+                    <div class="col fs-14">
+                        <input ng-model="energy.Q16E1" type="radio" ng-value="'3'" name="fa">&nbsp;<span
+                            style="position:absolute">On-grid gross metering</span>
+                    </div>
+
+                    
+                </div>
+                
+            </div>
+
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+
+                <div class="item item-text-wrap item-borderless" ng-show="energy.Q9E1 == 'Y'">
+                    13. What is the power generated by the solar rooftop panel in a year (kWh)?
+                
+                     <span class="badge" ng-click="showToolTip('Q17')">?</span>
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q19E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q19E1', 3660)">
+                        </label>
+                    </ion-list>
+
+                </div>
+            </div>
+            
+            <div class="card" ng-show="energy.Q9E1 == 'Y'">
+                <div class="item item-text-wrap item-borderless">
+                    14. What are the operation and maintenance (O&M) practices adopted??
+
+                </div>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="water.Q9E1S101" ng-checked="water.Q9E1S1020 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp; Wet cleaning at least once a week.
+                    </span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="water.Q9E1S102" ng-checked="water.Q9E1S1021 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp;  Dry cleaning daily
+                    </span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap hi">
+                    <input ng-model="water.Q9E1S103" ng-checked="water.Q9E1S1022 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp;  Annual maintenance contract with the vendor for maintenance of electrical and other technical components.
+                    </span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap hi ">
+                    <input ng-model="water.Q9E1S105" ng-checked="water.Q9E1S1023 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp; Regular monitoring of the integrated software real-time tracking of performance (usually through a smart phone or computer).
+                    </span>
+                </ion-item>
+                
+
+            </div>
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary"></span><span ng-if="!primary"></span> (B) Advanced questions on other renewable energy systems
+          
+
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    15 What is the non-solar source of renewable energy (RE) for the school?
+
+                </div>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S101" ng-checked="energy.Q9E1S101 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp;Biofuel</span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S102" ng-checked="energy.Q9E1S102 === '2'" type="checkbox"><span
+                        style="position:absolute">&nbsp; Wind</span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S103"  type="checkbox"><span
+                        style="position:absolute">&nbsp; Small hydro</span>
+                </ion-item>
+
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S105" ng-checked="energy.Q9E1S105 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp;Not applicable</span>
+                </ion-item>
+                
+                <ion-item class="fs-14 item-text-wrap">
+                    <input ng-model="energy.Q9E1S104" ng-checked="energy.Q9E1S104 === '1'" type="checkbox"><span
+                        style="position:absolute">&nbsp;Other</span>
+                </ion-item>
+                
+
+            </div>
+
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    16. What is the size of invertors associated with the non-solar RE system(W)? 
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q33E1" type="number" string-to-number
+                                   onkeypress="return" placeholder="Answer here!"
+                                   ng-change="validLimit('Q33E1', 366)">
+                        </label>
+                    </ion-list>
+                </div>
+            </div>
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    17. What is the installed capacity of non-solar RE system in your school (kW)?? 
+                
+                     <span class="badge" ng-click="showToolTip('Q17')">?</span>
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q29E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q29E1', 366)">
+                        </label>
+                    </ion-list>
+
+                </div>
+            </div>
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    18. What is the connected load of the school (kW)?? 
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q30E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q30E1', 366)">
+                        </label>
+                    </ion-list>
+                </div>
+            </div>
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    19. What is the power generated by the non-solar RE system in a year (kWh)?? 
+                </div>
+                <div class="list ">
+                    <ion-list>
+                        <label class="item item-input">
+                            <input ng-model="energy.Q31E1" type="number" string-to-number
+                                   onkeypress="return isNumberKey(event);" placeholder="Answer here!"
+                                   ng-change="validLimit('Q31E1', 366)">
+                        </label>
+                    </ion-list>
+                </div>
+            </div>
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary"></span><span ng-if="!primary"></span> 20. What are the operation and maintenance (O&M) practices adopted for installed RE plant?
+    
+
+                </div>
+                <div class="item item-text-wrap item-borderless " style="padding-left: 20px">
+                    <div class="fs-14 item-text-wrap space">
+                        <input ng-model="energy.Q9E1S1026" type="checkbox" ng-value="'1'" >&nbsp;<span
+                            style="position:absolute"> Annual maintenance contract with the vendor for maintenance of electrical and other technical components.
+                        </span>
+                    </div>
+                    <div class="fs-14 item-text-wrap space">
+                        <input ng-model="energy.Q9E1S1027" type="checkbox" ng-value="'2'" >&nbsp;<span
+                            style="position:absolute"> Regular monitoring of the integrated software real-time tracking of performance (usually through a smart phone or computer).
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="list card">
+                <div class="button-bar">
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="goToPrev()">
+                        PREV
+                    </a> &nbsp;
+
+                    <a class="button background-color text-white"
+                       ng-disabled="(!primary && !validNext()) || (primary && !validNextPrimary())" ion-chevron-right nav-clear ng-click="quiz2(energy)">
+                        NEXT
+                    </a> &nbsp;
+
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="saveData()">
+                        SAVE
+                    </a>
+                </div>
+            </div>
+
+        </ion-scroll>
+    </ion-content>
+</ion-view>

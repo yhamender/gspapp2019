@@ -1,0 +1,793 @@
+<ion-view title="Land {{ primaryText }}" ng-controller="landCtrl">
+
+    <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+        function isDecimalNumber(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+
+
+    <ion-content scroll="false">
+
+        <div class="button-bar">
+            <a class="button background-color text-white" ion-chevron-right
+               nav-clear ng-click="openModal()">
+                Watch Video Tutorial <img align="right" src="img/green-school-video-icon.png"
+                                          style="width : auto ; height : auto" ng-click="openModal()">
+            </a>
+        </div>
+
+        <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+            <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+        </div>
+        <p style="text-align: center">Progress: {{ progress }}% </p>
+
+        <ion-scroll direction="y" class="theroot">
+
+            <div class="padding-bottom content" style="text-align: justify;">
+                The GSP audit helps the school community
+                draw up a roadmap for sustainable use of its land.
+                <strong>The unit of measurement to be used in the Land section is Square Meter (m2).</strong>
+            </div>
+
+            <div class="list" style="margin-left: 5px;margin-right: 5px">
+                <strong>Task 1: Choose your Land Audit Team</strong><br>
+                <p>
+                    Your school
+                    <span ng-show="!readMore[1]">...</span>
+                    <span ng-show="readMore[1]">
+                        gardener is certainly the best person to be a part of your audit team.
+                        Make sure your biology or geography teacher joins your team. Just like
+                        all other teams, five to 10 of your committed and interested schoolmates
+                        would make a strong team. Try and involve some students of the photography
+                        or painting clubs of your school.
+                    </span>
+                    <a ng-click="toggleReadMore(1)">
+                        <span ng-show="!readMore[1]">Read More</span>
+                        <span ng-show="readMore[1]">Read Less</span>
+                    </a>
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Teachers (maximum of three teachers can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateTeacher('L')">
+                    Please enter details of at least 1 teacher
+                </span>
+
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col">Email ID</div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">1</div>
+                    <div class="col">
+                        <input ng-model="land.Q1L1S1" name="oneName" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q1L1S3" name="oneNameLast" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="text">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q1L1S2" class="textbox" style="border:1px solid #111;text-align: center;"
+                               type="email">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">2</div>
+                    <div class="col"><input ng-model="land.Q1L2S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q1L2S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q1L2S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"
+                                            id='landtwoEmail'></div>
+                </div>
+
+
+                <div class="row ">
+                    <div class="col col-10">3</div>
+                    <div class="col"><input ng-model="land.Q1L3S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"
+                                            id='landthreeName'></div>
+                    <div class="col"><input ng-model="land.Q1L3S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q1L3S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"
+                                            id='landthreeEmail'></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Administrative staff (maximum of five staff can be part of the team):
+                </div>
+                 <span class="validation-error" ng-hide="validStaff('L')">
+                    Please enter details of at least one staff.
+                </span>
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col">Last Name</div>
+                    <div class="col"> Email ID</div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">1</div>
+                    <div class="col"><input ng-model="land.Q2L1S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L1S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L1S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">2</div>
+                    <div class="col"><input ng-model="land.Q2L2S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L2S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L2S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">3</div>
+                    <div class="col"><input ng-model="land.Q2L3S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L3S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L3S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">4</div>
+                    <div class="col"><input ng-model="land.Q2L4S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L4S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L4S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">5</div>
+                    <div class="col"><input ng-model="land.Q2L5S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L5S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q2L5S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="email"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    Students (maximum of ten students can be part of the team):
+                </div>
+                <span class="validation-error" ng-hide="validateStudent('L')">
+                    Please enter details of at least 1 student
+                </span>
+                <div class="row ">
+                    <div class="col col-10"></div>
+                    <div class="col">First Name</div>
+                    <div class="col"> Last Name</div>
+                    <div class="col"> Grade</div>
+                </div>
+                <div class="row ">
+                    <div class="col col-10">1</div>
+                    <div class="col"><input ng-model="land.Q3L1S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L1S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L1S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">2</div>
+                    <div class="col"><input ng-model="land.Q3L2S1" id='questionlandthreeTwoName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L2S2" id='questionlandthreeTwoEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L2S3" id='questionlandthreeTwoGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+
+                <div class="row ">
+                    <div class="col col-10">3</div>
+                    <div class="col"><input ng-model="land.Q3L3S1" id='questionlandthreeThreeName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L3S2" id='questionlandthreeThreeEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L3S3" id='questionlandthreeThreeGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">4</div>
+                    <div class="col"><input ng-model="land.Q3L4S1" id='questionlandthreeFourName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L4S2" id='questionlandthreeFourEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L4S3" id='questionlandthreeFourGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">5</div>
+                    <div class="col"><input ng-model="land.Q3L5S1" id='questionlandthreeFiveName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L5S2" id='questionlandthreeFiveEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L5S3" id='questionlandthreeFiveGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">6</div>
+                    <div class="col"><input ng-model="land.Q3L6S1" id='questionlandthreeSixName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L6S2" id='questionlandthreeSixEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L6S3" id='questionlandthreeSixGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">7</div>
+                    <div class="col"><input ng-model="land.Q3L7S1" id='questionlandthreeSevenName' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L7S2" id='questionlandthreeSevenEmail' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L7S3" id='questionlandthreeSevenGrade' class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">8</div>
+                    <div class="col"><input ng-model="land.Q3L8S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L8S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L8S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">9</div>
+                    <div class="col"><input ng-model="land.Q3L9S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L9S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L9S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">10</div>
+                    <div class="col"><input ng-model="land.Q3L10S1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L10S2" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                    <div class="col"><input ng-model="land.Q3L10S3" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="text"></div>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong ng-if="!primary">Task 2: Measure the four critical areas of your school campus.</strong>
+                <strong ng-if="primary">Task 2: Identify the types of areas in your school.</strong>
+            </div>
+
+            <div class="padding-bottom content fs-14" ng-if-start="!primary">
+                To find out the land/ site area of your school, you need to measure:
+            </div>
+
+            <div class="content" ng-if-end><!--style="text-align: justify;">-->
+                <ul>
+                    <li>Ground coverage area</li>
+                    <li>Open Area (on-ground)</li>
+                    <li>Service Area (on-ground)</li>
+                    <li>Service Parking</li>
+                </ul>
+                <p>
+                    <span ng-show="readMore[2]">
+                        <b>1. Site area in square meter:</b> Site area refers to the area or exact
+                        plot of ground on which anything is, has been, or is to be located.
+                        ‘Plot’ means a piece of land enclosed by definite boundaries. <br>
+                        <b>2.Ground Coverage Area:</b> The audit team will have to get in touch
+                        with the administrative staff in the school office to procure the electricity
+                        bills.<br>
+                        <b>3. Green cover or green, landscaped area on-ground:</b> this includes
+                        areas covered by grass, trees, lawn or horticulture, flower beds, grasscrete
+                        paver tiles, etc.<br>
+                        <b>4. Surface parking area:</b> refers to any parking lots directly on land.
+                        <br>
+                        <b>5. Play area that is paved/ concrete:</b> this includes all outdoor playfields such
+                        as basketball court; skating rink; assembly ground; swimming pool, etc.<br>
+                        <b>6. Play area covered by grass on ground:</b> this includes tennis grass
+                        court, cricket/ football grounds etc.<br>
+                        <b>7. Service area on ground:</b> this is any area on ground that is not a
+                        permanent structure, but dedicated to services such as cooling towers for air
+                        conditioning, generators, portable cabins for security guards, etc.<br>
+                        <b>8. Roof and terrace area:</b> A roof is the covering on the uppermost part
+                        of a building. A terrace is an outdoor, occupiable extension of a building
+                        above ground level.<br>
+                        <b>9. Green cover on terrace/ balconies:</b> this includes terrace garden,
+                        but not potted plants.<br>
+                        <b>10. Total built up/ constructed area:</b> this refers to the total areas
+                        of all floors of the building, including ground floors of built-up spaces,
+                        which include classrooms, labs, staff rooms, office area, auditoria, corridors,
+                        as well as balconies and terraces, multiplied by the number of floors.<br>
+                        <b>Others:</b> this will include paved paths, and other open area that your
+                        school has, but not covered in the above list.<br>
+                        <b>To collect data:</b> The total constructed area can be sourced from the
+                        building construction plan of the school, which will be available in the school
+                        office. Or else, measure the constructed spaces and use the formula for
+                        calculating the areas of various shapes, such as a square or rectangle, to
+                        derive the data and add them all.
+                    </span><br/>
+                    <a ng-click="toggleReadMore(2)">
+                        <span ng-show="!readMore[2]">Read More</span>
+                        <span ng-show="readMore[2]">Read Less</span>
+                    </a>
+                </p>
+            </div>
+
+            <div class="card" ng-if="!primary">
+
+                <div class="item item-text-wrap item-borderless">
+                    1. What is the total site/plot area of your school?
+                </div>
+
+                <div class="row">
+                    <div class="col col-10"></div>
+                    <div class="col">Description</div>
+                    <div class="col">Your school's area (m2)</div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10"></div>
+                    <div class="col">Site area in square meter (m2)</div>
+                    <div class="col"><input ng-model="land.Q4L1" class="textbox"
+                                            style="border:1px solid #111;text-align: center;" type="number"
+                                            string-to-number readonly></div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">
+                        <b>1A</b>
+                    </div>
+                    <div class="col">
+                        Total Green Cover
+                        <span class="badge" ng-click="showToolTip('Q1A')">?</span>
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">(a)</div>
+                    <div class="col">Ground coverage area</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L2" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²" string-to-number
+                               ng-change="updateQ4()"
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(b1)</div>
+                    <div class="col">Green landscaped area on-ground</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L3" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²"
+                               ng-change="updateQ4()"
+                               string-to-number onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(b2)</div>
+                    <div class="col">Play area that has grass on ground</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L4" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²"
+                               ng-change="updateQ4()"
+                               string-to-number onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">(b3)</div>
+                    <div class="col">Green area on ground(b1 + b2)</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L5" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               string-to-number readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">(c)</div>
+                    <div class="col">Play area that is paved/ concrete on ground</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L6" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               ng-change="updateQ4()"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(d)</div>
+                    <div class="col">Surface parking area</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L7" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               ng-change="updateQ4()"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(e)</div>
+                    <div class="col">Service Area on ground</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L8" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               ng-change="updateQ4()"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">
+                        <b>1B</b>
+                    </div>
+                    <div class="col">
+                        Built-up area of your school campus
+                    </div>
+                    <div class="col"></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(i)</div>
+                    <div class="col">Roof and terrace area</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L9" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(ii)</div>
+                    <div class="col">Green cover on exposed roof & terrace</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L10" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-10">(iii)</div>
+                    <div class="col">Total built up/constructed area</div>
+                    <div class="col">
+                        <input ng-model="land.Q4L11" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               placeholder="m²" string-to-number
+                               onkeypress="return isDecimalNumber(event);">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col col-10">(iv)</div>
+                    <div class="col">
+                        Total no. of floors(excluding ground floor)
+                        <span class="badge" ng-click="showToolTip('Q4L12')">?</span>
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q4L12" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" min="1" step="0.01"
+                               limit-to="3"
+                               string-to-number onkeypress="return isNumberKey(event);">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" ng-if="primary">
+
+                <div class="row">
+                    <div class="col col-60"><b>1. Types of Area</b></div>
+                    <div class="col"><b>Numbers</b></div>
+                </div>
+
+                <div class="row" ng-repeat="i in [1, 2, 3, 4, 5, 6, 7]">
+                    <div class="col col-60">{{ data.typesOfArea[i] }}</div>
+                    <div class="col"><input ng-model="land['Q4L' + i]" class="textbox"
+                                            style="border:1px solid #111;text-align: center;"
+                                            type="number" string-to-number
+                                            onkeypress="return isNumberKey(event)" ></div>
+                </div>
+
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                <strong>
+                    Task 3: Explore the number of species of plants and animals in your school
+                </strong>
+            </div>
+
+            <div class="content" style="text-align: justify;">
+                <div>
+                    This task will
+                    <span ng-show="!readMore[3]">...</span>
+                    <span ng-show="readMore[3]">
+                        help you to understand the number and variety of plants and animals
+                        that your school campus supports. Identify and count the various
+                        species of plants and animals in your school.
+                        <br/>
+                        <b> To collect data:</b> <br/> Make two teams of students. One for
+                        plant species and the other for animal species. Get the school gardener
+                        and the biology teacher to accompany them. Count plant species and
+                        animal species that are visible to the naked eye.<br/>
+                        <span ng-if="!primary">
+                            Native (definition): a species that occurs naturally within a region,
+                        either evolving there or arriving and becoming established without
+                        human assistance<br/>
+                        Exotic (definition): An exotic plant or animal, which is invasive,
+                        is a species that meets the following conditions:<br/>
+                            1. Originate outside the local area.<br/>
+                            2. Have the potential to spread long distances on its own.<br/>
+                            3. Once established, have the potential to out-compete native
+                                species in the wild.<br/>
+                        </span>
+                    </span>
+                    <a ng-click="toggleReadMore(3)">
+                        <span ng-show="!readMore[3]">Read More</span>
+                        <span ng-show="readMore[3]">Read Less</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card" ng-if="!primary">
+                <div class="item item-text-wrap item-borderless">
+                    2. How many species of plants and animals exist in your school?
+                </div>
+
+                <div class="row ">
+                    <div class="col"></div>
+                    <div class="col">Native</div>
+                    <div class="col"> Exotic</div>
+                    <div class="col"> Total</div>
+                </div>
+
+                <div class="row ">
+                    <div class="col">Plants</div>
+                    <div class="col">
+                        <input ng-model="land.Q5L1S1" ng-change="updateQ5(1)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q5L1S2" ng-change="updateQ5(1)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q5L1S3" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                               readonly>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="col">Animals</div>
+                    <div class="col">
+                        <input ng-model="land.Q5L2S1" ng-change="updateQ5(2)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q5L2S2" ng-change="updateQ5(2)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col">
+                        <input ng-model="land.Q5L2S3" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number
+                               readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" ng-if="primary">
+                <div class="item item-text-wrap item-borderless">
+                    2. How many types of plants are there in your school?
+                </div>
+
+                <div class="row ">
+                    <div class="col col-33"><b>Flowering</b></div>
+                    <div class="col col-33"><b>Fruiting</b></div>
+                    <div class="col col-34"><b>Total</b></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-33">
+                        <input ng-model="land.Q5L1S1" ng-change="updateQ5(1)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col col-33">
+                        <input ng-model="land.Q5L1S2" ng-change="updateQ5(1)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col col-34">
+                        <input ng-model="land.Q5L1S3" class="textbox" style="border:1px solid #111;text-align: center;"
+                               type="number" string-to-number readonly>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="card" ng-if="primary">
+                <div class="item item-text-wrap item-borderless">
+                    3. How many types of animals and birds are there in your school?
+                </div>
+
+                <div class="row ">
+                    <div class="col col-33"><b>Birds</b></div>
+                    <div class="col col-33"><b>Animals</b></div>
+                    <div class="col col-34"><b>Total</b></div>
+                </div>
+
+                <div class="row ">
+                    <div class="col col-33">
+                        <input ng-model="land.Q5L2S1" ng-change="updateQ5(2)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col col-33">
+                        <input ng-model="land.Q5L2S2" ng-change="updateQ5(2)" class="textbox"
+                               style="border:1px solid #111;text-align: center;" type="number" string-to-number min="0"
+                               onkeypress="return isNumberKey(event)">
+                    </div>
+                    <div class="col col-34">
+                        <input ng-model="land.Q5L2S3" class="textbox" style="border:1px solid #111;text-align: center;"
+                               type="number" string-to-number readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="padding-bottom content fs-16">
+                Task 4: Find out if your school uses pesticides
+            </div>
+
+            <div class="card">
+                <div class="item item-text-wrap item-borderless">
+                    <span ng-if="primary">4.</span><span ng-if="!primary">3.</span> Do you use chemical-based
+                    pesticides in your school green cover?
+                </div>
+                <div class="row " style="padding-left: 20px">
+
+                    <div class="col fs-12">
+                        <input ng-model="land.Q6L1" type="radio" ng-value="'Y'"
+                               name="b">&nbsp;<span style="position:absolute"> Yes</span>
+                    </div>
+                    <div class="col fs-12">
+                        <input ng-model="land.Q6L1" type="radio" ng-value="'N'"
+                               name="b">&nbsp;<span style="position:absolute">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="list" style="padding-left: 20px">
+                    <b>Please upload picture of supporting documents:</b>
+                    <span>
+                        Uploaded files must be in .jpg, .jpeg format. File
+                        size per document should not exceed 500 KB.
+                    </span>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <div class="row"><strong>Previous Uploads:</strong></div>
+                    <div class="row" ng-if="image_lookup.Green_Cover.length > 0"
+                         ng-repeat="i in get0List(image_lookup.Green_Cover.length)">
+                        <img src="" web-upload="{{ image_lookup.Green_Cover[i] }}" height="100" width="100">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <ul class="water-list">
+                        <li>
+                            Pictures of <span ng-if="primary">Kachcha(unpaved) playground with grass</span>
+                            <span ng-if="!primary">green cover</span>
+                        </li>
+                        <li>
+                            Pictures of <span ng-if="primary">Pucca(paved) playground</span>
+                            <span ng-if="!primary">landscaped area</span>
+                        </li>
+                        <li ng-if="!primary">
+                            Building construction plan
+                        </li>
+                    </ul>
+                    <button class="button button-assertive button-small" type="button"
+                            ng-click="takepic('Green_Cover')">Take Picture
+                    </button>
+                    <button class="button button-assertive button-small" type="button" ng-click="remove('Green_Cover')">
+                        Remove Picture
+                    </button>
+                    <div class="col col-25">Current Uploads:</div>
+                    <div class="col" ng-if="images.Green_Cover.length > 0"
+                         ng-repeat="i in get0List(images.Green_Cover.length)">
+                        <img src="" image-u-r-l="{{ images.Green_Cover[i] }}" height="100" width="100"
+                             alt="Green_Cover">
+                    </div>
+                </div>
+
+                <div class="list" style="padding-left: 20px">
+                    <p>Please click upload after taking/selecting all the pictures.</p>
+                    <button type="button" class="button button-assertive" ng-click="upload('Green_Cover')">
+                        Upload
+                    </button>
+                </div>
+            </div>
+
+            <div class="list card">
+                <!--||question.id==numberOfQuestions-1-->
+                <div class="button-bar">
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="goToPrev()">
+                        PREVIOUS
+                    </a> &nbsp;
+                    <a class="button background-color text-white" ng-disabled="!validNext()"
+                       ion-chevron-right nav-clear ng-click="quiz2(land)">
+                        NEXT
+                    </a> &nbsp;
+                    <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="saveData()">
+                        SAVE
+                    </a>
+                    <!-- ng-click="quiz2()" -->
+                    <!--  <a class="button background-color text-white" ng-show="question.id>=numberOfQuestions-1" ion-chevron-right nav-clear href="#/tab/results">COMPLETE</a> -->
+                </div>
+            </div>
+
+        </ion-scroll>
+    </ion-content>
+</ion-view>

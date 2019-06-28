@@ -1,0 +1,85 @@
+<ion-view title="Digital Certificate" ng-controller="certificateCtrl">
+  <script type="text/javascript">
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+        function isDecimalNumber(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode;
+            return !(charCode !== 46 && charCode > 31 && (charCode < 48 || charCode > 57));
+        }
+    </script>
+  
+  <ion-content scroll="false" ng-init="loadPageData()">
+    <div class="button-bar"> <a class="button background-color text-white" ion-chevron-right
+               nav-clear ng-click="openModal()"> Watch Video Tutorial <img align="right" src="img/green-school-video-icon.png"
+                                          style="width : auto ; height : auto" ng-click="openModal()"> </a> </div>
+    <div class="row" style="padding-top: 0px;padding-bottom: 0px">
+      <progress id="progressbar" max="100" value="{{ progress }}" class="progress"></progress>
+    </div>
+    <p style="text-align: center">Progress: {{ progress }}% </p>
+    <ion-scroll direction="y" class="theroot">
+      <div class="list" style="margin-left: 5px;margin-right: 5px"> <strong>Please ensure that you select unique names to avoid duplication in digital certificates</strong><br>
+      </div>
+      <form ng-submit="generateCertificate()" name="certificateForm">
+        <div class="card">
+          <div class="item item-text-wrap item-borderless"> Digital Certificates Of Students</div>
+          <div class="row" ng-repeat="y in arr">
+            <div class="col">
+              <!-- data.allSection[i]['sectionName']-->
+              <input ng-model="name" ng-value="y.name" class="textbox" style="border:1px solid #111;text-align: center;" type="text" value="">
+            </div>
+            <div class="col">
+              <input ng-model="school_name" ng-value="y.school_name" class="textbox" style="border:1px solid #111;text-align: center;" type="text" value="">
+            </div>
+            <div class="col6">
+              <input type="checkbox" name="" style="position:relative; top:12px;" ng-click="addCertificateRow(y.name,y.school_name)" ng-checked="checkCertificateAvailabe(y.name)=='true'" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="item item-text-wrap item-borderless"> Digital Certificates Of Teachers & Staff</div>
+          <div class="row ">
+            <div class="col">Certificate Name</div>
+            <div class="col">School Name</div>
+            <div class="col6">Remove</div>
+          </div>
+          <div class="row" ng-repeat="y in arr1">
+            <div class="col">
+              <input ng-model="name" ng-value="y.teacher" class="textbox" style="border:1px solid #111;text-align: center;" type="text">
+            </div>
+            <div class="col">
+              <input ng-model="school_name" ng-value="y.school" class="textbox" style="border:1px solid #111;text-align: center;" type="text">
+            </div>
+            <div class="col6">
+              <input type="checkbox" name="" style="position:relative; top:12px;" ng-click="addCertificateRow(y.name,y.school)" />
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="item item-text-wrap item-borderless"> Digital Certificates Of Principal & Coordinator</div>
+          <div class="row ">
+            <div class="col">Certificate Name</div>
+            <div class="col">School Name</div>
+            <div class="col6">Remove</div>
+          </div>
+          <div class="row" ng-repeat="y in arr2">
+            <div class="col">
+              <input ng-model="name" ng-value="y.name" class="textbox" style="border:1px solid #111;text-align: center;" type="text">
+            </div>
+            <div class="col">
+              <input ng-model="school_name" ng-value="y.schoolname" class="textbox" style="border:1px solid #111;text-align: center;" type="text">
+            </div>
+            <div class="col6">
+              <input type="checkbox" name="" style="position:relative; top:12px;" ng-click="addCertificateRow(y.name,y.schoolname)" />
+            </div>
+          </div>
+        </div>
+        <div class="list card">
+          <div class="button-bar"> <a class="button background-color text-white"
+                       ion-chevron-right nav-clear ng-click="goToBackWaste()">PREV</a> <button class="button background-color text-white" type="submit"> NEXT</button> <a class="button background-color text-white" ion-chevron-right nav-clear ng-click="goToNextFeedback()">SAVE</a> </div>
+        </div>
+      </form>
+    </ion-scroll>
+  </ion-content>
+</ion-view>
