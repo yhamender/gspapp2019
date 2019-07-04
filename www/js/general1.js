@@ -173,8 +173,7 @@ angular.module('starter.general', [])
 
     $scope.validateQ4 = function () {
       var qID = 'Q4G1S3';
-      var aID = 'Q4G2S3';
-      return $scope.validVal(qID,aID);
+      return $scope.validVal(qID);
     };
 
     $scope.checkQ6 = function () {
@@ -189,7 +188,7 @@ angular.module('starter.general', [])
     $scope.validNext = function () {
       var validated = ($scope.validVal('Q1G1') && $scope.validVal('Q1G2') &&
       $scope.validVal('Q2G1') && $scope.validQ3() &&
-      $scope.validateQ4() && $scope.validVal('Q5G1') && $scope.validVal('Q5G2') &&
+      $scope.validateQ4() && $scope.validVal('Q5G1') &&
       $scope.validVal('Q6G1') && $scope.validVal('Q8G1') &&
       $scope.validVal('Q9G1'));
       if (validated) {

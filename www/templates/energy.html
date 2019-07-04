@@ -647,16 +647,16 @@
                 </div>
                 <ion-item class="fs-14 item-text-wrap">
                     <input ng-model="energy.Q9E1S1" ng-change="checkQ9E1S(1, 9)" type="checkbox" ng-value="'1'"
-                           ng-checked="energy.Q9E1S1==='1'" name="f"><span
+                           ng-checked="energy.Q9E1S1==='true'" name="f"><span
                         style="position:absolute">&nbsp;Solar</span>
                 </ion-item>
                 <ion-item class="fs-14 item-text-wrap">
                     <input ng-model="energy.Q9E1S2" ng-change="checkQ9E1S(2, 10)" type="checkbox" ng-value="'2'"
-                           ng-checked="energy.Q9E1S2==='1'" name="f"><span
+                           ng-checked="energy.Q9E1S2==='true'" name="f"><span
                         style="position:absolute">&nbsp;Wind</span>
                 </ion-item>
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S3" type="checkbox" ng-value="'3'" name="f" ng-checked="energy.Q9E1S3==='1'"><span
+                    <input ng-model="energy.Q9E1S3" type="checkbox" ng-value="'3'" name="f" ng-checked="energy.Q9E1S3==='true'"><span
                         style="position:absolute">&nbsp;Hydro</span>
                 </ion-item>
                 <ion-item class="fs-14 item-text-wrap">
@@ -886,25 +886,25 @@
                 </div>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="water.Q9E1S101" ng-checked="water.Q9E1S1020 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S1020" ng-checked="energy.Q9E1S1020 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp; Wet cleaning at least once a week.
                     </span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="water.Q9E1S102" ng-checked="water.Q9E1S1021 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S1021" ng-checked="energy.Q9E1S1021 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp;  Dry cleaning daily
                     </span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap hi">
-                    <input ng-model="water.Q9E1S103" ng-checked="water.Q9E1S1022 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S1022" ng-checked="energy.Q9E1S1022 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp;  Annual maintenance contract with the vendor for maintenance of electrical and other technical components.
                     </span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap hi ">
-                    <input ng-model="water.Q9E1S105" ng-checked="water.Q9E1S1023 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S1023" ng-checked="energy.Q9E1S1023 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp; Regular monitoring of the integrated software real-time tracking of performance (usually through a smart phone or computer).
                     </span>
                 </ion-item>
@@ -926,27 +926,27 @@
                 </div>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S101" ng-checked="energy.Q9E1S101 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S101" ng-checked="energy.Q9E1S101 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp;Biofuel</span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S102" ng-checked="energy.Q9E1S102 === '2'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S102" ng-checked="energy.Q9E1S102 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp; Wind</span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S103"  type="checkbox"><span
+                    <input ng-model="energy.Q9E1S103"  type="checkbox"><span ng-checked="energy.Q9E1S103 === 'true'"
                         style="position:absolute">&nbsp; Small hydro</span>
                 </ion-item>
 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S105" ng-checked="energy.Q9E1S105 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S105" ng-checked="energy.Q9E1S105 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp;Not applicable</span>
                 </ion-item>
                 
                 <ion-item class="fs-14 item-text-wrap">
-                    <input ng-model="energy.Q9E1S104" ng-checked="energy.Q9E1S104 === '1'" type="checkbox"><span
+                    <input ng-model="energy.Q9E1S104" ng-checked="energy.Q9E1S104 === 'true'" type="checkbox"><span
                         style="position:absolute">&nbsp;Other</span>
                 </ion-item>
                 
@@ -1020,12 +1020,12 @@
                 </div>
                 <div class="item item-text-wrap item-borderless " style="padding-left: 20px">
                     <div class="fs-14 item-text-wrap space">
-                        <input ng-model="energy.Q9E1S1026" type="checkbox" ng-value="'1'" >&nbsp;<span
+                        <input ng-model="energy.Q9E1S1026" type="checkbox" ng-checked="energy.Q9E1S1026 === 'true'" ng-value = "'1'" >&nbsp;<span
                             style="position:absolute"> Annual maintenance contract with the vendor for maintenance of electrical and other technical components.
                         </span>
                     </div>
                     <div class="fs-14 item-text-wrap space">
-                        <input ng-model="energy.Q9E1S1027" type="checkbox" ng-value="'2'" >&nbsp;<span
+                        <input ng-model="energy.Q9E1S1027" type="checkbox" ng-checked="energy.Q9E1S1027 === 'true'" ng-value = "'2'" >&nbsp;<span
                             style="position:absolute"> Regular monitoring of the integrated software real-time tracking of performance (usually through a smart phone or computer).
                         </span>
                     </div>

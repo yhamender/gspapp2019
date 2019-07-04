@@ -248,6 +248,23 @@ angular.module('starter.energy', [])
       }
       return false;
     };
+    $scope.energyQ15=function(){
+      if($scope.energy['Q9E1S101'] || $scope.energy['Q9E1S102'] || $scope.energy['Q9E1S103'] || $scope.energy['Q9E1S104'] || $scope.energy['Q9E1S105']){ 
+        return true;
+      }
+      {return 
+        false;
+      } 
+    }
+
+    $scope.energyQ20=function(){
+      if($scope.energy['Q9E1S1026'] || $scope.energy['Q9E1S1027']){ 
+        return true;
+      }
+      {return 
+        false;
+      } 
+    }
 
     $scope.updateQ5 = function () {
       var val1, val2;
@@ -352,6 +369,28 @@ angular.module('starter.energy', [])
       }
       return false;
     };
+    
+
+    $scope.check14E1 = function () {
+      var qID14_1 = 'Q9E1S101';
+      var qID14_2 = 'Q9E1S102';
+      var qID14_3 = 'Q9E1S103';
+      var val14_1, val14_2, val14_3;
+      val14_1 = $scope.getAbsVal(qID14_1);
+      val14_2 = $scope.getAbsVal(qID14_2);
+      val14_3 = $scope.getAbsVal(qID14_3);
+      if (val14_1 || val14_2 || val14_3){
+          $scope.showPopup('Alert', "You've entered value in solar, wind or biogas field in Q3 above");
+      }
+    };
+
+        
+
+
+
+
+
+
 
     $scope.checkQ9E1 = function () {
       var qID9 = 'Q6E9S1';
@@ -443,6 +482,7 @@ angular.module('starter.energy', [])
       }
     }
     
+    
 
     $scope.validNext = function () {
       var validQ4 = $scope.validVal('Q4E1');
@@ -450,9 +490,11 @@ angular.module('starter.energy', [])
       var validQ6E1 = $scope.validateQ6E1();
       var validQ9 = $scope.validateQ9();
       var validQ10 = $scope.validVal('Q10E1');
+      var validQ15 = $scope.energyQ15();
+      var validQ20 = $scope.energyQ20();
       var validate = ($scope.validateTeacher('E') && $scope.validateStudent('E') &&
               validQ4  && validQ5 && $scope.validVal('Q29E1') && $scope.validVal('Q33E1') && $scope.validVal('Q30E1') && $scope.validVal('Q31E1') &&
-              validQ9 && validQ10 && validQ6E1 );
+              validQ9 && validQ10 && validQ6E1 && validQ15 && validQ20);
       if (validate) {
         return true;
       }
