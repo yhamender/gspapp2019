@@ -126,6 +126,10 @@ angular.module('starter.general', [])
       return false;
     };
 
+    $scope.validq4c = function(){
+      var val = $scope.school.Q1S1
+    }
+
     $scope.checkQ1 = function () {
       var val1 = $scope.general.Q1G1;
       var val2 = $scope.general.Q1G2;
@@ -184,12 +188,24 @@ angular.module('starter.general', [])
         // angular.element('#questiongeneraleight').val(365);
       }
     };
+    $scope.validateQ4C = function(){
+      if($scope.other.Q1S1 === 3){
+        if($scope.validVal('Q5G2')){
+        return true;
+        }else{return false;}
+      }
+      else
+    {
+      return false;
+    }
+    }
+
 
     $scope.validNext = function () {
       var validated = ($scope.validVal('Q1G1') && $scope.validVal('Q1G2') &&
       $scope.validVal('Q2G1') && $scope.validQ3() &&
-      $scope.validateQ4() && $scope.validVal('Q5G1') &&
-      $scope.validVal('Q6G1') && $scope.validVal('Q8G1') &&
+      $scope.validateQ4() && $scope.validVal('Q5G1')  && 
+      $scope.validVal('Q6G1') && $scope.validVal('Q8G1') && $scope.validateQ4C() &&
       $scope.validVal('Q9G1'));
       if (validated) {
         return true;
